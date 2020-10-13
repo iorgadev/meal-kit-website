@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../css/style.css"> 
+</head>
+
+<body>
+
+<!-- start container -->
+<div class="container">
+
+{{> header }}
+ 
+{{{ body }}}
+
+{{> footer }}
+
+ 
+</div>
+<!-- end container -->        
+
+<!-- modal login/register -->
+<div id="login" class="modal" style="display:none">
+    <div class="modal-content">
+    <span class="close">×</span>
+    <h1>- Login -</h1>
+        <form>
+            {{!-- <label for="email">Email: </label> --}}
+            <input type="text" name="email" placeholder="Email Address">
+            {{!-- <label for="password">Password: </label> --}}
+            <input type="text" name="password" placeholder="Password">
+            <input class="submit-button" type="submit" name="submit" value="LOGIN">
+            <p>Don't have an account? <a class="register" href="#sign-up">Sign up here.</a></p>
+        </form>
+    </div>
+</div>
+
+<div id="register" class="modal" style="display:none">
+    <div class="modal-content">
+    <span class="close">×</span>
+    <h1>- Register -</h1>
+        <form>
+            <input type="text" name="firstName" placeholder="First Name">
+            <input type="text" name="lastName" placeholder="Last Name">
+            <input type="text" name="email" placeholder="Email Address">
+            <input type="text" name="password" placeholder="Password">
+            <input class="submit-button" type="submit" name="submit" value="REGISTER">
+            <p>Already have an account? <a class="login" href="#sign-up">Login here.</a></p>
+        </form>
+    </div>
+</div>        
+
+<script src="../js/script.js"></script>
+</body>
+</html>        

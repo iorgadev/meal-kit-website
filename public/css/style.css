@@ -1,0 +1,1326 @@
+/*
+// Full Name: Adrian Iorga
+// Student #: 124180191
+// Seneca Email: aiorga - at - myseneca.ca
+// Class: WEB322 NAA
+// Assignment - Meal Kit Website
+// ********************************
+*/
+
+/*
+// ********************************
+// Sitewide
+// ********************************
+*/
+
+@import url(https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&family=Roboto&family=Rubik&display=swap);
+
+/*color palette*/
+:root {
+    --black-color: #353535;
+    --white-color: #dbdbdb;
+    --red-color: #fe6652;
+    --yellow-color: #ec9305;
+
+    --primary-color: var(--black-color);
+    --page-color: var(--white-color);
+    --dark-text-color: var(--red-color);
+    --light-text-color: var(--yellow-color);
+}
+
+/*set default values for most elements on screen*/
+html, body, div, span, h1, h2, h3 {
+    margin:0;
+    padding:0;
+    border:0;
+    font-size:100%;
+    vertical-align: middle;
+}
+
+/*include padding, margin, and borders in widths*/
+* {
+    box-sizing: border-box;
+}
+
+/*set html dom and body to cover full screen space*/
+html, body {
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+}
+
+
+
+/*
+// ********************************
+// Typography
+// ********************************
+*/
+* {
+    font-family: 'Josefin Sans', sans-serif;
+}
+h1 {font-size:3rem;}
+h2 {font-size:2.5rem;}
+h3 {font-size:2rem;}
+
+.right{text-align: right;}
+.left{text-align: left;}
+.center{text-align: center;}
+
+
+
+/*
+// ********************************
+// Basic responsiveness small, medium, or large screens
+// ********************************
+*/
+.container {
+    width:100%;
+    margin:0 auto;
+}
+
+.row {
+    position:relative;
+    width:100%;
+}
+
+/*make rows span to height of content inside it*/
+.row::after { 
+    display:block;
+    clear:both;
+    content: "";
+}
+
+.hide-sm {display: none;}
+
+@media only screen and (min-width:577px){
+    .hide-sm {display: block;}
+    .hide-md {display: none;}
+}
+
+/*
+// ********************************
+// images
+// ********************************
+*/
+img {vertical-align: middle;}
+
+.img-responsive {
+    max-width:100%;
+    height:auto;
+}
+
+
+
+/*
+// ********************************
+// EasyChef custom styles below
+// ********************************
+*/
+
+
+/* header section */
+#header {
+    position:fixed;
+    z-index: 5;
+    width:100%;
+}
+.menu-button {
+    width:32px;
+    float:right;
+}
+.show-menu {
+    background-color: var(--primary-color);
+    margin-top:15px;
+    padding:15px 15px;
+}
+.show-menu a{
+    display:block;
+    margin:5px 10px;
+    padding:12px 5px 5px;
+    color:var(--page-color);
+    font-size:1.5rem;
+    text-decoration: none;
+    /* border:1px solid #ffffff; */
+}
+.show-menu a:last-child {
+    color:var(--dark-text-color);
+    font-size:1.7rem;
+    /* position: relative; */
+    /* left:2px; */
+}
+.show-menu .icon {
+    position: relative;
+    top:-5px;
+}
+
+
+/* hero section */
+#hero {
+    background-color: var(--primary-color);
+    -webkit-box-shadow: 0px 0px 30px -10px #353535 inset;
+    box-shadow: 0px 0px 30px -10px #353535 inset;
+}
+.overlay {
+    background-color: rgba(0, 0, 0, 0.7);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+.content {
+    position: relative;
+    z-index: 2;
+}
+#hero h1 {
+    color:var(--light-text-color);
+    font-size:4rem;
+    line-height:3.5rem;
+    text-shadow: 2px 2px var(--page-color);
+}
+#hero p {
+    color:var(--page-color);
+    margin:0;
+}
+
+.cta-button {
+    display:block;
+    /* float:right; */
+    margin:0 auto;
+    margin-top:30px;
+    padding:15px 10px 10px;
+    color:var(--dark-text-color);
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size:1.25rem;
+    width:80%;
+    border:2px solid var(--dark-text-color);
+    background-color:var(--primary-color);
+}
+.cta-button:hover {
+    background-color:var(--primary-color);
+    border:2px solid var(--page-color);
+}
+.cta-icon {
+    position: relative;
+    width:32px;
+    vertical-align: middle;
+    top:-5px
+}
+/* hero small */
+#hero-small {
+    background-color: var(--primary-color);
+    padding-top:70px;
+    -webkit-box-shadow: 0px 0px 30px -10px #353535 inset;
+    box-shadow: 0px 0px 30px -10px #353535 inset;
+}
+#hero-small h1 {
+    color:var(--light-text-color);
+}
+#hero-small p {
+    margin:0;
+    padding: 0;
+    color:var(--page-color);
+}
+
+
+/* our process  */
+#process {
+    background-color:#353535;
+}
+#process .padded {
+    width:2%;
+    content:"";
+    min-height: 1px;
+    float:left;
+}
+#process .big {
+    width:90%;
+    padding:15px;
+    background-color:#242424;
+    position: relative;
+    top:-50px;
+    z-index: 3;
+    /* float:left; */
+    margin:0 auto;
+    -webkit-box-shadow: 0px 0px 30px -10px rgb(0, 0, 0);
+    box-shadow: 0px 0px 30px -10px rgb(0, 0, 0);
+}
+#process .big img {
+    width:100%;
+    max-height:500px;
+    object-fit: cover;
+}
+#process .step {
+    width:100%;
+    float:left;
+    vertical-align: middle;
+}
+#process .step h2 {
+    margin:40px 0px 10px;
+    color:var(--page-color);
+}
+#process .step ul {
+    padding:0;
+}
+#process .step li {
+    width:50%;
+    /* display:inline-block; */
+    vertical-align: middle;
+    position: relative;
+    color:var(--light-text-color);
+}
+#process .step-num {
+    width:100%;
+}
+#process .step-num img {
+    display:block;
+    max-width:35%;
+    margin:0 auto;
+}
+#process .step-num .title {
+    display:block;
+    font-size:1.25rem;
+    color:var(--page-color);
+}
+#process .step-num .number {
+    color:#707070;
+    font-size:2rem;
+    font-weight: 800;
+}
+
+
+/* top meals */
+#top-meals {
+    width:100%;
+    margin:0 auto;
+    padding:50px 0px 50px;
+    box-sizing: border-box;
+    background-color:var(--page-color);
+}
+#top-meals h2 {
+    text-transform: uppercase;
+    margin-bottom:10px;
+    color:var(--primary-color);
+}
+
+.top-meal {
+    background:#ffffff;
+    padding:5px;
+    -webkit-box-shadow: 10px 10px 10px -10px rgb(0, 0, 0);
+    box-shadow: 10px 10px 10px -10px rgb(0, 0, 0);
+    width:85%;
+    margin: 0 auto;
+    margin-bottom:40px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display:block;
+}
+.top-meal img {
+    width:100%;
+    margin-bottom:10px;
+}
+.top-meal span {
+    font-size:1rem;
+    color:var(--primary-color);
+}
+.top-meal .price {
+    position: absolute;
+    font-size:1.5rem;
+    /* color:#08881d; */
+    color:var(--light-text-color);
+    padding:5px 5px 0px 5px;
+    margin:10px;
+    background-color: #00000070;
+}
+.top-meal p {
+    margin:0;
+    font-size:.75rem;
+}
+
+
+/* on the menu meals */
+#menu-meals {
+    width:100%;
+    margin:0 auto;
+    padding:40px 0px 40px;
+    box-sizing: border-box;
+    background-color:var(--page-color);
+}
+#menu-meals h2:first-child {
+    margin-top:0;
+}
+#menu-meals h2 {
+    margin-top:60px;
+    margin-bottom:-25px;
+    color:var(--primary-color);
+    text-transform: uppercase;
+    font-size: 2rem;
+}
+
+.menu-meal {
+    background:#ffffff;
+    padding:10px;
+    -webkit-box-shadow: 0px 0px 30px -10px rgb(0, 0, 0);
+    box-shadow: 0px 0px 30px -10px rgb(0, 0, 0);
+    width:80%;
+    display:inline-block;
+    /* float:left; */
+    margin: 40px 20px 10px;
+    box-sizing: border-box;
+    /* position: relative; */
+}
+.menu-meal img {
+    width:100%;
+    margin-bottom:10px;
+}
+.menu-meal span {
+    font-size:1.25rem;
+    color:var(--primary-color);
+}
+.menu-meal .price {
+    position: absolute;
+    font-size:2rem;
+    /* color:#08881d; */
+    color:var(--light-text-color);
+    padding:5px 5px 0px 5px;
+    margin:10px;
+    background-color: #00000070;
+}
+.menu-meal p {
+    margin:0;
+}
+
+
+
+
+/* footer */
+#footer {
+    background-color:#000000;
+    color:#ffffff;
+    /* height:100px; */
+}
+.easychef {
+    background-color:var(--primary-color);
+    padding:60px 40px 60px;
+}
+.easychef div { 
+    float:left;
+    min-height:1px;
+    margin:0 auto;
+    width:33.3333%;
+}
+.easychef h4 {
+    text-transform: uppercase;
+    font-size:1.25rem;
+    border-left:8px solid var(--light-text-color);
+    padding-left:12px;
+    font-family: 'Roboto';
+    margin-top:0;
+}
+.easychef .logo-underline {
+    position: relative;
+    display: block;
+    width:80%;
+    height:8px;
+    background-color: var(--light-text-color);
+    content: "";
+    margin:0 auto;
+    margin-top:15px;
+    margin-bottom:15px;
+}
+.easychef .company p {
+    font-size:1.3rem;
+    line-height: 1.25rem;
+    font-family: 'Rubik';
+    font-weight: 300;
+    margin:20px 0px 0px;
+    padding:0px 40px 0;
+}
+
+.easychef .social-media {
+    text-align: center;
+}
+.easychef .social-media h4 {
+    text-align: left;
+}
+.easychef .social-media img {
+    margin-right:20px;
+}
+.easychef .social-media img:last-child {
+    margin-right: 0;
+}
+
+.easychef .links div {
+    width:50%;
+    text-align: left;
+}
+.easychef .links ul {
+    text-align: left;
+    padding-left:22px;
+}
+.easychef .links li {
+    font-size:1.25rem;
+    list-style: none;
+    margin-bottom:10px;
+}
+.easychef .links li:last-child {
+    margin-bottom:0;
+}
+.easychef .links a {
+    color:var(--page-color);
+    text-decoration: none;
+}
+.easychef .links a:hover {
+    color:var(--dark-text-color);
+}
+
+
+
+
+.required-info {
+    background-color:#242424;
+    padding:14px 0 10px;
+}
+
+
+
+.modal {
+    display: none; 
+    position: fixed; 
+    left: 0;
+    top: 0;
+    height: 100%;
+    width:100%;
+    overflow: auto; 
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,.9); 
+    z-index: 10; 
+}
+.modal-content {
+    margin: 7% auto;
+    padding: 30px;
+    width: 80%;
+    line-height: 1.2;
+    position: relative;
+    color:var(--page-color);
+}
+.modal-content a {
+    color:var(--dark-text-color);
+}
+.modal-content h1 {
+    font-size:2rem;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 20px;
+    color:var(--page-color);
+}
+.modal-content p {
+    margin:10px 0 10px;
+    text-align: center;
+}
+.close {
+    color: #aaa;
+    right:10px;
+    top: 0;
+    font-size: 3rem;
+    font-weight: bold;
+    position: absolute;
+    cursor: pointer;
+}
+.close:hover, .close:focus {
+    color: var(--dark-text-color);
+    text-decoration: none;
+}
+
+#login .modal-content {
+    border:6px solid var(--page-color);
+    background-color: var(--primary-color);
+}
+#register .modal-content {
+    border:6px solid var(--page-color);
+    background-color: var(--primary-color);
+}
+
+
+
+/* form style */
+label {
+    font-size:2rem;
+}
+input {
+    width:100%;
+    height:70px;
+    margin-bottom:15px;
+    font-size:2rem;
+    text-align: center;
+    border:2px solid var(--page-color);
+    padding:15px;
+    /* background-color: var(--primary-color); */
+}
+.submit-button {
+    margin-bottom: 0;
+    font-size:1.75rem;
+    text-transform: uppercase;
+    text-align: center;
+    padding:10px 0px 5px;
+    background-color: var(--page-color);
+    color:var(--dark-text-color);
+    border-color: 2px solid var(--dark-text-color);
+}
+
+
+
+
+/* small screens */
+/* small screens */
+/* small screens */
+@media only screen and (max-width:576px){
+    #header {
+        background-color: var(--primary-color);
+        padding:15px;
+    }
+    .logo {
+        max-width:50%;
+        float:left;
+    }
+    .menu-button {
+        width:32px;
+    }
+
+
+    /* hero section */
+    #hero {
+        background-image: url('../images/bgs/pexels-photo-327143-min.jpg');
+        background-size: cover;
+        min-height:100vh;
+        text-align: center;
+        padding:35vh 1rem 0;
+    }
+    #hero-small {
+        height:40vh;
+        text-align: center;
+        background-image: url('../images/bgs/pexels-roman-odintsov-4552131-min.jpg');
+        background-size: cover;
+        background-position-y: initial;
+        padding-top:15vh;
+    }
+    #hero-small h1 {
+        font-size:4rem;
+        line-height: 3.5rem;
+        text-shadow: 3px 3px var(--page-color);
+    }
+    #hero-small p {
+        padding:0 10px 0;
+    }
+
+    /* process */
+    #process {
+        padding-bottom:40px;
+    }
+    #process .ourprocess {
+        color:var(--dark-text-color);
+    }
+    #process .step li {
+        float:left;
+        list-style: none;
+    }
+
+    /* our process */
+    .steps {
+        display:block;
+        position: relative;
+        padding:5px 15px 5px 10px;
+        clear:both;
+        min-height:150px;
+    }
+    .steps img {
+        width:30%;
+        float:left;
+        vertical-align: middle;
+        max-height:150px;
+    }
+    .steps .title {
+        font-size:1.5rem;
+        line-height: 1.4rem;
+        text-align: right;
+        display:block;
+        color:var(--dark-text-color);
+    }
+    .steps p {
+        display:block;
+        margin:0;
+        text-align: right;
+    }
+
+    .steps-flip img {
+        float:right;
+    }
+    .steps-flip .title {
+        text-align: left;
+    }
+    .steps-flip p {
+        text-align: left;
+    }
+
+    .menu-meal {
+        -webkit-box-shadow: 10px 10px 10px -10px rgb(0, 0, 0);
+        box-shadow: 10px 10px 10px -10px rgb(0, 0, 0);
+        margin-top:25px;
+    }
+
+    /* footer */
+    .easychef {
+        background-color:var(--primary-color);
+        padding:60px 20px 40px;
+    }
+    .easychef div { 
+        float:left;
+        min-height:1px;
+        margin:0 auto;
+        margin-bottom:40px;
+        width:100%;
+    }
+    .easychef div:last-child {
+        margin-bottom:0;
+    }
+    .easychef h4 {
+        text-transform: uppercase;
+        font-size:1.25rem;
+        border-left:8px solid var(--light-text-color);
+        padding-left:12px;
+        font-family: 'Roboto';
+        margin-top:0;
+    }
+    .easychef .company p {
+        font-size:1.25rem;
+        line-height: 1rem;
+        font-family: 'Rubik';
+        font-weight: 300;
+        margin:20px 0px 0px;
+        padding:0px 5px 0;
+    }
+
+    .easychef .social-media {
+        text-align: center;
+    }
+    .easychef .social-media h4 {
+        text-align: left;
+    }
+    .easychef .social-media img {
+        margin-right:10px;
+        width:15%;
+    }
+    .easychef .social-media img:last-child {
+        margin-right: 0;
+    }
+
+    .easychef .links div {
+        width:50%;
+        text-align: left;
+    }
+    .easychef .links .nav {
+        margin-bottom:0;
+    }
+    .easychef .links ul {
+        text-align: left;
+        padding-left:22px;
+    }
+    .easychef .links li {
+        font-size:1.25rem;
+        list-style: none;
+        margin-bottom:10px;
+    }
+    .easychef .links li:last-child {
+        margin-bottom:0;
+    }
+    .easychef .links a {
+        color:var(--page-color);
+        text-decoration: none;
+    }
+
+    .required-info {
+        font-size: .7rem;
+    }
+
+
+
+    /* mobile modal */
+    .modal-content {
+        padding: 15px;
+        width: 90%;
+        line-height: 1.2;
+    }
+
+    /* form style */
+    label {
+        font-size:2rem;
+    }
+    input {
+        height:60px;
+        padding:15px;
+        border:2px solid var(--primary-color);
+        background-color: var(--page-color);
+        color:var(--primary-color);
+    }
+    .submit-button {
+        margin-bottom: 0;
+        font-size:1.75rem;
+        text-transform: uppercase;
+        text-align: center;
+        padding:10px 0px 5px;
+        background-color: var(--primary-color);
+        color:var(--dark-text-color);
+        border-color: 2px solid var(--dark-text-color);
+    }
+    
+}
+
+
+
+/* medium screens + */
+/* medium screens + */
+/* medium screens + */
+@media only screen and (min-width:577px){
+    .hide-md {display:none;}
+
+    #header {
+        padding:15px;
+    }
+    .logo {
+        max-width:50%;
+        float:left;
+    }
+    .menu-button {
+        /* display:inline; */
+        width:64px;
+        line-height:78px;
+        vertical-align: middle;
+    }
+    .show-menu {
+        font-size: 2rem;
+    }
+
+    #hero {
+        background-image: url('../images/bgs/pexels-photo-4281747-min.jpeg');
+        background-size: cover;
+        padding-right:1rem;
+        padding-left:3rem;
+        height:105vh;
+        padding-top:35vh;
+        text-align: right;
+    }
+    #hero h1 {
+        font-size:7rem;
+        line-height: 6.8rem;
+        text-shadow: 3px 3px var(--page-color);
+    }
+    #hero p {
+        font-size:1.5rem;
+    }
+    .cta-button {
+        width:400px;
+        padding:30px 0px 25px;
+        font-size:2rem;
+        font-weight: 700;
+        float:right;
+        background-color: var(--page-color);
+    }
+
+    #hero-small {
+        height:30vh;
+        text-align: center;
+        background-image: url('../images/bgs/pexels-roman-odintsov-4552131-min.jpg');
+        background-size: cover;
+        background-position-y: initial;
+        padding-top:15vh;
+    }
+    #hero-small h1 {
+        font-size:5.5rem;
+        line-height: 5rem;
+        text-shadow: 3px 3px var(--page-color);
+    }
+
+    /* our process  */
+    #process {
+        background-color:#353535;
+    }
+    #process .padded {
+        width:2%;
+        content:"";
+        min-height: 1px;
+        float:left;
+    }
+    #process .big {
+        width:40%;
+        padding:15px;
+        background-color:#242424;
+        position: relative;
+        top:-50px;
+        z-index: 3;
+        float:left;
+        -webkit-box-shadow: 0px 0px 30px -10px rgb(0, 0, 0);
+        box-shadow: 0px 0px 30px -10px rgb(0, 0, 0);
+    }
+    #process .big img {
+        width:100%;
+        max-height:500px;
+        object-fit: cover;
+    }
+    #process .step {
+        width:58%;
+        float:left;
+        vertical-align: middle;
+    }
+    #process .step ul {
+        padding-left:0;
+        margin-top:50px;
+    }
+    #process .step li {
+        width:45%;
+        display:inline-block;
+        vertical-align: middle;
+        position: relative;
+        padding:0px;
+        color:var(--light-text-color);
+        /* float:initial; */
+        /* background-color: #0000001a; */
+    }
+    #process .step ul li:nth-child(1){
+        border-right:1px solid #848484;
+        border-bottom:1px solid #848484;
+    }
+    #process .step ul li:nth-child(3){
+        padding-top:10px;
+    }
+    #process .step ul li:nth-child(4){
+        border-left:1px solid #848484;
+        border-top:1px solid #848484;
+    }
+    #process .step-num {
+        width:100%;
+    }
+    #process .step-num img {
+        display:block;
+        max-width:35%;
+        margin:0 auto;
+    }
+    #process .step-num .title {
+        display:block;
+        font-size:1.25rem;
+        color:var(--page-color);
+    }
+    #process .step-num .number {
+        color:#707070;
+        font-size:2rem;
+        font-weight: 800;
+    }
+
+
+    /* top meals */
+    #top-meals {
+        width:100%;
+        margin:0 auto;
+        padding:50px 0px 50px;
+        box-sizing: border-box;
+        background-color:var(--page-color);
+    }
+    #top-meals h2 {
+        font-size:3rem;
+        margin-bottom:10px;
+        color:var(--primary-color);
+    }
+
+    .top-meal {
+        padding:5px;
+        width:27%;
+        display:inline-block;
+        margin: 20px 15px 20px;
+        box-sizing: border-box;
+        -webkit-box-shadow: 0px 0px 30px -10px rgb(0, 0, 0);
+        box-shadow: 0px 0px 30px -10px rgb(0, 0, 0);
+    }
+    .top-meal img {
+        width:100%;
+        margin-bottom:10px;
+    }
+    .top-meal span {
+        font-size:1rem;
+        color:var(--primary-color);
+    }
+    .top-meal .price {
+        position: absolute;
+        font-size:1.5rem;
+        /* color:#08881d; */
+        color:var(--light-text-color);
+        padding:5px 5px 0px 5px;
+        margin:10px;
+        background-color: #00000070;
+    }
+    .top-meal p {
+        margin:0;
+        font-size:.75rem;
+    }
+
+
+    /* on the menu meals */
+    #menu-meals {
+        width:100%;
+        margin:0 auto;
+        padding:60px 0px 40px;
+        box-sizing: border-box;
+        background-color:var(--page-color);
+    }
+    #menu-meals h2:first-child {
+        margin-top:0;
+    }
+    #menu-meals h2 {
+        /* margin-top:80px; */
+        color:var(--primary-color);
+        text-transform: uppercase;
+        font-size: 3rem;
+    }
+
+    .menu-meal {
+        background:#ffffff;
+        padding:10px;
+        -webkit-box-shadow: 0px 0px 30px -10px rgb(0, 0, 0);
+        box-shadow: 0px 0px 30px -10px rgb(0, 0, 0);
+        width:40%;
+        display:inline-block;
+        /* float:left; */
+        margin: 40px 20px 20px;
+        box-sizing: border-box;
+        /* position: relative; */
+    }
+    .menu-meal img {
+        width:100%;
+        margin-bottom:10px;
+    }
+    .menu-meal span {
+        font-size:1.25rem;
+        color:var(--primary-color);
+    }
+    .menu-meal .price {
+        position: absolute;
+        font-size:2rem;
+        /* color:#08881d; */
+        color:var(--light-text-color);
+        padding:5px 5px 0px 5px;
+        margin:10px;
+        background-color: #00000070;
+    }
+    .menu-meal p {
+        margin:0;
+    }
+
+
+    /* footer */
+    .easychef {
+        background-color:var(--primary-color);
+        padding:60px 10px 20px;
+    }
+    .easychef .company {
+        width:40%;
+        padding:0px 20px 0px;
+    }
+    .easychef .company p {
+        font-size: 1rem;
+        padding:0 5px 0;
+    }
+
+    .easychef .social-media {
+        width:60%;
+        float:right;
+    }
+
+
+    .easychef .links {
+        margin-top:20px;
+        width:60%;
+        float:right;
+    }
+    .easychef .links div {
+        width:50%;
+    }
+}
+
+
+
+/* large screens + */
+/* large screens + */
+/* large screens + */
+@media only screen and (min-width:1000px){
+    .hide-sm, .hide-md {display: block;}
+    .hide-lg {display:none;}
+
+    .logo { margin-left:2vw;}
+
+    /* menu */
+    .menu-button {display:none;}
+    .menu {
+        float:right;
+    }
+    .menu a {
+        color:var(--page-color);
+        font-size:1.5rem;
+        line-height: 78px;
+        margin-right:20px;
+        text-decoration: none;
+    }
+    .menu a:last-child {
+        margin-right:0;
+        padding:15px 15px 10px;
+        color:var(--dark-text-color);
+        text-align: center;
+        text-transform: uppercase;
+        text-decoration: none;
+        font-size:1.75rem;
+        font-weight:600;
+        border:2px solid var(--dark-text-color);
+        background-color:var(--primary-color);
+    }
+    .menu a:hover {
+        color:var(--dark-text-color);
+    }
+    .menu .icon {
+        display:none;
+    }
+
+
+    /* hero */
+    #hero {
+        background-image: url('../images/bgs/pexels-photo-1640774-min3.jpg');
+        background-size: cover;
+        background-position-y: initial;
+        padding-top:30vh;
+        padding-right:3rem;
+        padding-left:40vw;
+    }
+    #hero h1 {
+        text-shadow: 4px 4px var(--page-color);
+    }
+    #hero p {
+        font-size: 2rem;
+    }
+    .cta-button {
+        width:500px;
+        padding:30px 0px 25px;
+        font-size:2rem;
+        font-weight: 700;
+    }
+    /* hero small */
+    #hero-small {
+        height:40vh;
+        background-image: url('../images/bgs/pexels-roman-odintsov-4552131-min.jpg');
+        background-size: cover;
+        background-position-y: initial;
+        padding-top:20vh;
+    }
+    #hero-small h1 {
+        font-size: 7rem;
+        line-height: 6.5rem;
+    }    
+    #hero-small p {
+        font-size:2rem;
+        padding:0px 3rem 0px;
+    }
+    #process .step ul {
+        padding-left:40;
+    }
+    #process .step li {
+        padding:30px;
+    }
+    #process .step-num .title {
+        font-size:1.5rem;
+    }
+
+    /* top meals */
+    #top-meals h2 {
+        font-size:3rem;
+    }
+    .top-meal .price {
+        font-size:2rem;
+    }
+    .top-meal p {
+        margin:0;
+        font-size:1rem;
+    }
+
+    /* footer */
+    .easychef {
+        background-color:var(--primary-color);
+        padding:60px 10px 40px;
+    }
+    .easychef h4 {
+        font-size:1.4rem;
+        margin-bottom: 20px;
+    }
+    .easychef .company {
+        width:33.3333%;
+        /* padding:0px 20px 0px; */
+    }
+    .easychef .company p {
+        font-size: 1rem;
+        padding:0 5px 0;
+    }
+    .easychef .company img {
+        max-width:275px;
+    }
+
+    .easychef .social-media {
+        width:33.3333%;
+        float:left;
+    }
+    .easychef .social-media img {
+        width:48px;
+    }
+
+
+    .easychef .links {
+        margin-top:0;
+        width:33.3333%;
+        float:left;
+    }
+    .easychef .links div {
+        width:50%;
+    }
+
+
+}
+
+
+
+/* extra large */
+/* extra large */
+/* extra large */
+@media only screen and (min-width:1400px){
+
+    .menu a{
+        font-size:2rem;
+        margin-right:30px;
+    }
+    .menu a:last-child {
+        font-size:2rem;
+        font-weight:700;
+    }
+    .menu .icon {
+        display: inline;
+        position: relative;
+        top:-5px;
+    }
+
+    #hero {
+        padding-top:25vh;
+    }
+    #hero h1 {
+        font-size:10rem;
+        line-height: 8.5rem;
+    }
+
+    #hero-small h1 {
+        font-size: 9rem;
+        line-height: 8rem;
+    }
+
+    .menu-meal {
+        margin-bottom:40px;
+    }
+
+    .easychef h4 {
+        font-size:2rem;
+    }
+    .easychef .company img {
+        max-width:300px;
+    }
+    .easychef .social-media img {
+        width:64px;
+    }
+
+    .modal-content {
+        width:30%;
+    }
+    .modal-content h1 {
+        font-size:3rem;
+    }
+
+}
+
+/* fixes for landscape modes on smaller devices */
+
+@media only screen and (min-width:1023px) and (max-height:900px) {
+    #hero {
+        padding-top:20vh;
+    }
+    #hero h1 {
+        font-size:7.8rem;
+    }
+    #hero p {
+        font-size:1.5rem;
+    }
+    #hero-small {
+        height:40vh;
+    }
+    #hero-small p {
+        font-size:1.5rem;
+    }
+
+    .easychef .social-media img {
+        width:42px;
+    }
+}
+
+@media only screen and (max-width:850px) and (max-height:450px) {
+    .logo {
+        max-height: 48px;
+    }
+    .menu-button {
+        max-width: 48px;
+        max-height: 48px;
+    }
+
+    #hero {
+        height:120vh;
+        padding-top:23vh;
+    }
+    #hero h1 {
+        font-size:4rem;
+        line-height: 3.5rem;
+    }
+    #hero p {
+        font-size:1rem;
+        padding-left:3rem;
+    }
+    .cta-button {
+        margin-top:10px;
+        padding:10px 20px 5px;
+    }
+
+    #hero-small {
+        padding-top:35vh;
+        height:65vh;
+    }
+    #hero-small h1 {
+        font-size: 4.25rem;
+    }
+
+    .easychef .social-media img {
+        width:48px;
+    }
+}
+
+@media only screen and (min-width:1300px) and (max-height:900px) {
+    #hero {
+        padding-top:25vh;
+    }
+    #hero h1 {
+        line-height: 7rem;
+    }
+    #hero-small {
+        height:45vh;
+    }
+}

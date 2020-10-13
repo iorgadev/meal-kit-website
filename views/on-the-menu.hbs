@@ -1,0 +1,27 @@
+<!-- hero section -->
+<div class="row">
+    <div id="hero-small" class="">
+        <div class="overlay"></div>
+        <div class="content">
+            <h1>ON THE MENU</h1>
+            <p>You decide your next 5-star meal, as a chef and diner in your own home kitchen!</p>
+        </div>
+    </div>
+</div>
+
+{{!-- content section --}}
+
+<!-- content | top meals -->
+<div id="menu-meals" class="row center">
+    {{#each category}}
+        <h2>- {{@key}} menu -</h2>
+        {{#each this}}
+            <div class="menu-meal">
+                {{!-- <span class="price">${{price}}</span> --}}
+                <img src="../images/meals/{{image}}" alt="{{title}} meal">
+                <span>{{title}}</span>
+                <p>{{included}}</p>
+            </div>
+        {{/each}}
+    {{/each }}
+</div>

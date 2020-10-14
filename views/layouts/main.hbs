@@ -26,7 +26,7 @@
     <div class="modal-content">
     <span class="close">×</span>
     <h1>- Login -</h1>
-        <form>
+        <form action="/login-user" method="POST">
             {{!-- <label for="email">Email: </label> --}}
             <input type="text" name="email" placeholder="Email Address">
             {{!-- <label for="password">Password: </label> --}}
@@ -41,7 +41,7 @@
     <div class="modal-content">
     <span class="close">×</span>
     <h1>- Register -</h1>
-        <form>
+        <form action="/register-user" method="POST">
             <input type="text" name="firstName" placeholder="First Name">
             <input type="text" name="lastName" placeholder="Last Name">
             <input type="text" name="email" placeholder="Email Address">

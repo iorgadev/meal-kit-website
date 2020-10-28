@@ -14,6 +14,8 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const port = process.env.PORT || 8080;
 
+//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
+
 //static meals data module file
 const meals = require(__dirname + '/meals.js');
 //lets create a grouped array for meals by category
@@ -107,8 +109,8 @@ app.post("/login", (req,res) =>{
             res.redirect("/on-the-menu")
         }
     }
+    //no errors found
     else {
-        //no errors, login valid!
         //redirect to dashboard!
         res.json({from: onPage});
     }
@@ -187,12 +189,28 @@ app.post("/register", (req,res) =>{
     else {
         //no errors, register valid!
 
-        //
         //send email
+        const sendgridMail = require("@sendgrid/mail");
+        sendgridMail.setApiKey("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");
 
-        //
-        //redirect to dashboard!
-        res.json({from: onPage});
+        const msg = {
+            to: email,
+            from: 'aiorga@myseneca.ca',
+            subject: 'Welcome to EasyChef',
+            html:
+                `
+                You're erady to be a chef, ${firstName} ${lastName}! <br>
+                Select a meal kit plan from our dashboard page and enjoy cooking like a real chef!
+                `
+        };
+
+        sendgridMail.send(msg)
+            .then(() => {
+                res.redirect("/dashboard");
+            })
+            .catch(err => {
+                console.error(`Error sending email: ${err}`);
+            });
     }
 
 });

@@ -36,13 +36,13 @@
             <input type="text" name="email" value="{{#if errors.login}}{{errors.data.email}}{{/if}}" placeholder="Email Address">
             {{#if errors.login}}
                 {{#if errors.email }}
-            <span class="form_error">Please enter a valid email address.</span>
+                <span class="form_error">Please enter a valid email address.</span>
                 {{/if}}
             {{/if}}
             <input type="text" name="password" value="{{#if errors.login}}{{errors.data.password}}{{/if}}" placeholder="Password">
             {{#if errors.login}}
                 {{#if errors.password }}
-            <span class="form_error">Please enter a password.</span>
+                <span class="form_error">Please enter a password.</span>
                 {{/if}}
             {{/if}}
             <input class="submit-button" type="submit" name="submit" value="LOGIN">
@@ -78,7 +78,7 @@
                 <span class="form_error">Please enter a valid email address.</span>
                 {{/if}}
                 {{#if errors.email_length }}
-                <span class="form_error">Your email must be at least 6 characters long.</span>
+                <span class="form_error">Email must be at least 6 characters long.</span>
                 {{/if}}                
             {{/if}}
 
@@ -88,10 +88,10 @@
                 <span class="form_error">Please enter a valid password.</span>
                 {{/if}}
                 {{#if errors.password_length }}
-                <span class="form_error">Your password must be between 6 &amp; 12 characters long.</span>
+                <span class="form_error">Password must be between 6 &amp; 12 characters long.</span>
                 {{/if}}   
                 {{#if errors.password_contains }}
-                <span class="form_error">Your password must be contain only letters and numbers.</span>
+                <span class="form_error">Password must be contain only letters and numbers.</span>
                 {{/if}}                                
             {{/if}}      
 

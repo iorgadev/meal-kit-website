@@ -11,6 +11,7 @@ const express = require("express");
 const app = express();
 const hbs = require('express-handlebars');
 const bodyParser = require('body-parser');
+const session = require('express-session');
 const port = process.env.PORT || 8080;
 
 //static meals data module file
@@ -41,24 +42,34 @@ app.set('view engine', 'hbs');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+//sessions - error keeping for now
+app.use(session({secret: 'secret-meal-kits', resave: false, saveUninitialized: true}));
+
 //Routes
 let onPage = '';
 
-
 app.get("/", (req,res) => {
     onPage = 'index';
-    res.render(onPage, {
+    let errors = req.session.errors;
+    res.render('index', {
         title: 'EasyChef Meal Kits - WEB322 Assignment 2',
+        meal: meals,
         onPage: 'index',
-        meal: meals
-    })
+        errors
+    });
+    req.session.errors = null;//clear errors
 });
 
 app.get("/on-the-menu", (req,res) => {
+    onPage = 'on-the-menu';
+    let errors = req.session.errors;
     res.render('on-the-menu', {
         title: 'On The Menu - EasyChef Meal Kit',
-        category
+        category,
+        onPage,
+        errors
     });
+    req.session.errors = null;//clear errors
 });
 
 //process login form
@@ -69,34 +80,33 @@ app.post("/login", (req,res) =>{
     errors.found = 0;
 
     if(!email){
-        errors.email = "Please enter a valid email address.";
+        errors.email = true;
         formData.email = email;
         errors.found++;
+        errors.login = true;
     }
     
     if(!password){
-        errors.password = "Please enter a password.";
+        errors.password = true;
         formData.password = password;
         errors.found++;
+        errors.login = true;
     }
 
     //errors found
     if(errors.found > 0){
+
+        //save error sesssion to display on next page
+        req.session.errors = errors;
+        req.session.formData = formData;
+        
         //redirect to index page
         if(onPage == 'index'){
-            res.render('index', {
-                title: 'EasyChef Meal Kits - WEB322 Assignment 1',
-                meal: meals,
-                errors
-            });
+            res.redirect("/");
         }
         //redirect to on the menu page
         else if(onPage == 'on-the-menu'){
-            res.render('on-the-menu', {
-                title: 'On The Menu - EasyChef Meal Kit',
-                category,
-                errors
-            });
+            res.redirect("/on-the-menu")
         }
     }
     else {

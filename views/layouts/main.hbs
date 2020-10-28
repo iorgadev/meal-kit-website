@@ -6,7 +6,13 @@
     <link rel="stylesheet" type="text/css" href="../css/style.css"> 
 </head>
 
+{{#if errors.login}}
+<body onload="loadLoginModal();" error="{{errors.email}}">
+{{else if errors.register}}
+<body onload="loadRegisterModal();">
+{{else}}
 <body>
+{{/if}}
 
 <!-- start container -->
 <div class="container">
@@ -28,9 +34,13 @@
     <h1>- Login -</h1>
         <form action="/login" method="POST">
             <input type="text" name="email" placeholder="Email Address">
-            <span class="form_error">{{ errors.email }}</span>
+            {{#if errors.email }}
+            <span class="form_error">Please enter a valid email address.</span>
+            {{/if}}
             <input type="text" name="password" placeholder="Password">
-            <span class="form_error">{{ errors.email }}</span>
+            {{#if errors.password }}
+            <span class="form_error">Please enter a password.</span>
+            {{/if}}
             <input class="submit-button" type="submit" name="submit" value="LOGIN">
             <p>Don't have an account? <a class="register" href="#sign-up">Sign up here.</a></p>
 

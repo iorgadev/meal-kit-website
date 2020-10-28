@@ -10,6 +10,7 @@ const path = require("path");
 const express = require("express");
 const app = express();
 const hbs = require('express-handlebars');
+const bodyParser = require('body-parser');
 const port = process.env.PORT || 8080;
 
 //static meals data module file

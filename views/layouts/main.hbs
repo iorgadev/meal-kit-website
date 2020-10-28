@@ -28,9 +28,13 @@
     <h1>- Login -</h1>
         <form action="/login" method="POST">
             <input type="text" name="email" placeholder="Email Address">
+            <span class="form_error">{{ errors.email }}</span>
             <input type="text" name="password" placeholder="Password">
+            <span class="form_error">{{ errors.email }}</span>
             <input class="submit-button" type="submit" name="submit" value="LOGIN">
             <p>Don't have an account? <a class="register" href="#sign-up">Sign up here.</a></p>
+
+            <input type="hidden" name="on_page" value="{{onPage}}">
         </form>
     </div>
 </div>

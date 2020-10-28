@@ -33,9 +33,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //Routes
+let onPage = '';
+
 app.get("/", (req,res) => {
-    res.render('index', {
+    onPage = 'index';
+    res.render(onPage, {
         title: 'EasyChef Meal Kits - WEB322 Assignment 1',
+        onPage,
         meal: meals
     });
 });
@@ -57,8 +61,9 @@ app.get("/on-the-menu", (req,res) => {
     });
 });
 
+//process login form
 app.post("/login", (req,res) =>{
-    let { email, password } = req.body;
+    let { email, password, on_page: onPage } = req.body;
     let errors = {};
     errors.found = 0;
 
@@ -72,10 +77,15 @@ app.post("/login", (req,res) =>{
         errors.found++;
     }
 
-    if(errors.found > 0)
-        res.json({errors});
+    if(errors.found > 0){
+        res.render(onPage, {
+            title: 'EasyChef Meal Kits - WEB322 Assignment 1',
+            meal: meals,
+            errors
+        });
+    }
     else {
-        res.json({error: "no errors"});
+        res.json({from: onPage});
     }
 
 })

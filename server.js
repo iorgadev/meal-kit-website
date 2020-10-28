@@ -12,6 +12,8 @@ const app = express();
 const hbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const dotenv = require('dotenv');
+dotenv.config({path:"./config/keys.env"});
 const port = process.env.PORT || 8080;
 
 //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
@@ -191,7 +193,7 @@ app.post("/register", (req,res) =>{
 
         //send email
         const sendgridMail = require("@sendgrid/mail");
-        sendgridMail.setApiKey("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");
+        sendgridMail.setApiKey(process.env.SENDGRID_API_KEY);
 
         const msg = {
             to: email,

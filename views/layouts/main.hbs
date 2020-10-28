@@ -9,7 +9,7 @@
 {{#if errors.login}}
 <body onload="showLoginModal();">
 {{else if errors.register}}
-<body onload="loadRegisterModal();">
+<body onload="showRegisterModal();">
 {{else}}
 <body>
 {{/if}}
@@ -57,23 +57,48 @@
     <div class="modal-content">
     <span class="close">×</span>
     <h1>- Register -</h1>
-        <form action="/register-user" method="POST">
+        <form action="/register" method="POST">
             <input type="text" name="firstName" value="{{#if errors.register}}{{errors.data.firstName}}{{/if}}" placeholder="First Name">
+            {{#if errors.register}}
+                {{#if errors.firstName }}
+                <span class="form_error">Please enter a complete First Name.</span>
+                {{/if}}
+            {{/if}}    
+
             <input type="text" name="lastName" value="{{#if errors.register}}{{errors.data.lastName}}{{/if}}" placeholder="Last Name">
+            {{#if errors.register}}
+                {{#if errors.lastName }}
+                <span class="form_error">Please enter a complete Last Name.</span>
+                {{/if}}
+            {{/if}}    
+
             <input type="text" name="email" value="{{#if errors.register}}{{errors.data.email}}{{/if}}" placeholder="Email Address">
             {{#if errors.register}}
                 {{#if errors.email }}
                 <span class="form_error">Please enter a valid email address.</span>
                 {{/if}}
+                {{#if errors.email_length }}
+                <span class="form_error">Your email must be at least 6 characters long.</span>
+                {{/if}}                
             {{/if}}
+
             <input type="text" name="password" value="{{#if errors.register}}{{errors.data.password}}{{/if}}" placeholder="Password">
             {{#if errors.register}}
                 {{#if errors.password }}
-                <span class="form_error">Please enter a valid email address.</span>
+                <span class="form_error">Please enter a valid password.</span>
                 {{/if}}
-            {{/if}}            
+                {{#if errors.password_length }}
+                <span class="form_error">Your password must be between 6 &amp; 12 characters long.</span>
+                {{/if}}   
+                {{#if errors.password_contains }}
+                <span class="form_error">Your password must be contain only letters and numbers.</span>
+                {{/if}}                                
+            {{/if}}      
+
             <input class="submit-button" type="submit" name="submit" value="REGISTER">
             <p>Already have an account? <a class="login" href="#sign-up">Login here.</a></p>
+
+            <input type="hidden" name="on_page" value="{{onPage}}">
         </form>
     </div>
 </div>        

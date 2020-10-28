@@ -48,6 +48,7 @@ app.use(session({secret: 'secret-meal-kits', resave: false, saveUninitialized: t
 //Routes
 let onPage = '';
 
+//Main Page
 app.get("/", (req,res) => {
     onPage = 'index';
     let errors = req.session.errors;
@@ -60,6 +61,7 @@ app.get("/", (req,res) => {
     req.session.errors = null;//clear errors
 });
 
+//On The Menu page
 app.get("/on-the-menu", (req,res) => {
     onPage = 'on-the-menu';
     let errors = req.session.errors;
@@ -72,7 +74,7 @@ app.get("/on-the-menu", (req,res) => {
     req.session.errors = null;//clear errors
 });
 
-//process login form
+//Login form validation
 app.post("/login", (req,res) =>{
     let { email, password, on_page: onPage } = req.body;
     let errors = {};
@@ -113,33 +115,55 @@ app.post("/login", (req,res) =>{
 
 });
 
-//
-//
-//process register form
+
+//Register form validation
 app.post("/register", (req,res) =>{
     let { firstName, lastName, email, password, on_page: onPage } = req.body;
     let errors = {};
     errors.found = 0;
 
     //firstName
-    if(!firstname){
+    if(!firstName){
         errors.firstName = true;
         errors.found++;
     }
+
     //lastName
     if(!lastName){
         errors.lastName = true;
         errors.found++;
     }   
+
     //email
     if(!email){
         errors.email = true;
         errors.found++;
     }
+    else {
+        if(email.length < 6){
+            errors.email_length = true;
+            errors.found++;
+        }
+    }
+
     //password
     if(!password){
         errors.password = true;
         errors.found++;
+    }
+    else{
+        //validate password length
+        if(password.length < 6 || password.length > 12){
+            errors.password_length = true;
+            errors.found++;
+        }
+        //if length okay, validate contents of password
+        else{
+            if(!/^[A-Za-z0-9]+$/.test(password)) {
+                errors.password_contains = true;
+                errors.found++;
+            }
+        }
     }
 
 

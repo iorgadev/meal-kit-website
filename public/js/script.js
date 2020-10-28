@@ -23,6 +23,7 @@ var stickyHeader = () => {
             header.style.backgroundColor = "initial";
     }
 }
+stickyHeader();
 
 //call stickyHeader function when scroll event happens
 window.onscroll = () => {

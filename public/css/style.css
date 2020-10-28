@@ -401,6 +401,14 @@ img {vertical-align: middle;}
 }
 
 
+/* dashboard */
+#dashboard {
+    width:100%;
+    margin:0 auto;
+    padding:40px 20px 40px;
+    box-sizing: border-box;
+    background-color:var(--page-color);
+}
 
 
 /* footer */
@@ -621,6 +629,9 @@ input {
     }
     #hero-small p {
         padding:0 10px 0;
+    }
+    #hero-small .dashboard {
+        font-size:3.5rem;
     }
 
     /* process */
@@ -849,6 +860,13 @@ input {
         line-height: 5rem;
         text-shadow: 3px 3px var(--page-color);
     }
+    #hero-small .dashboard {
+        font-size:4.5rem;
+    }
+    .content p {
+        font-size: 1.5rem;
+    }
+    
 
     /* our process  */
     #process {
@@ -1134,6 +1152,11 @@ input {
         font-size:2rem;
         padding:0px 3rem 0px;
     }
+    #hero-small .dashboard {
+        font-size:7.5rem;
+    }
+
+
     #process .step ul {
         padding-left:40;
     }

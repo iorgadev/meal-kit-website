@@ -16,8 +16,6 @@ const dotenv = require('dotenv');
 dotenv.config({path:"./config/keys.env"});
 const port = process.env.PORT || 8080;
 
-//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
-
 //static meals data module file
 const meals = require(__dirname + '/meals.js');
 //lets create a grouped array for meals by category
@@ -80,8 +78,10 @@ app.get("/on-the-menu", (req,res) => {
 
 //Dashboard
 app.get("/dashboard", (req,res) => {
+    onPage = 'dashboard';
     res.render('dashboard', {
-        title: 'Dashboard - EasyChef Meal Kit'
+        title: 'Dashboard - EasyChef Meal Kit',
+        onPage
     });
 });
 
@@ -115,7 +115,10 @@ app.post("/login", (req,res) =>{
         }
         //redirect to on the menu page
         else if(onPage == 'on-the-menu'){
-            res.redirect("/on-the-menu")
+            res.redirect("/on-the-menu");
+        }
+        else {
+            res.redirect("/");
         }
     }
     //no errors found

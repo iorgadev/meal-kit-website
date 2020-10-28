@@ -7,7 +7,7 @@
 </head>
 
 {{#if errors.login}}
-<body onload="loadLoginModal();" error="{{errors.email}}">
+<body onload="showLoginModal();">
 {{else if errors.register}}
 <body onload="loadRegisterModal();">
 {{else}}
@@ -33,13 +33,17 @@
     <span class="close">×</span>
     <h1>- Login -</h1>
         <form action="/login" method="POST">
-            <input type="text" name="email" placeholder="Email Address">
-            {{#if errors.email }}
+            <input type="text" name="email" value="{{#if errors.login}}{{errors.data.email}}{{/if}}" placeholder="Email Address">
+            {{#if errors.login}}
+                {{#if errors.email }}
             <span class="form_error">Please enter a valid email address.</span>
+                {{/if}}
             {{/if}}
-            <input type="text" name="password" placeholder="Password">
-            {{#if errors.password }}
+            <input type="text" name="password" value="{{errors.data.password}}" placeholder="Password">
+            {{#if errors.login}}
+                {{#if errors.password }}
             <span class="form_error">Please enter a password.</span>
+                {{/if}}
             {{/if}}
             <input class="submit-button" type="submit" name="submit" value="LOGIN">
             <p>Don't have an account? <a class="register" href="#sign-up">Sign up here.</a></p>
@@ -54,10 +58,20 @@
     <span class="close">×</span>
     <h1>- Register -</h1>
         <form action="/register-user" method="POST">
-            <input type="text" name="firstName" placeholder="First Name">
-            <input type="text" name="lastName" placeholder="Last Name">
-            <input type="text" name="email" placeholder="Email Address">
-            <input type="text" name="password" placeholder="Password">
+            <input type="text" name="firstName" value="{{#if errors.register}}{{errors.data.firstName}}{{/if}}" placeholder="First Name">
+            <input type="text" name="lastName" value="{{#if errors.register}}{{errors.data.lastName}}{{/if}}" placeholder="Last Name">
+            <input type="text" name="email" value="{{#if errors.register}}{{errors.data.email}}{{/if}}" placeholder="Email Address">
+            {{#if errors.register}}
+                {{#if errors.email }}
+                <span class="form_error">Please enter a valid email address.</span>
+                {{/if}}
+            {{/if}}
+            <input type="text" name="password" value="{{#if errors.register}}{{errors.data.password}}{{/if}}" placeholder="Password">
+            {{#if errors.register}}
+                {{#if errors.password }}
+                <span class="form_error">Please enter a valid email address.</span>
+                {{/if}}
+            {{/if}}            
             <input class="submit-button" type="submit" name="submit" value="REGISTER">
             <p>Already have an account? <a class="login" href="#sign-up">Login here.</a></p>
         </form>

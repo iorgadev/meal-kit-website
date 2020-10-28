@@ -60,6 +60,9 @@ const loginModal = () => {
         });
     }
 }
+const showLoginModal = () => {
+    login.style.display = "block";
+}
 loginModal();
 
 const registerModal = () => {
@@ -71,6 +74,9 @@ const registerModal = () => {
             login.style.display = "none";
         });
     }
+}
+const showRegisterModal = () => {
+    register.style.display = "block";
 }
 registerModal();
 
@@ -93,6 +99,3 @@ window.onclick = function(event) {
     register.style.display = "none";
   }
 }
-
-//call functions to load page with default settings/colors/etc
-window.onload = stickyHeader;

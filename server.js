@@ -76,29 +76,25 @@ app.get("/on-the-menu", (req,res) => {
 app.post("/login", (req,res) =>{
     let { email, password, on_page: onPage } = req.body;
     let errors = {};
-    let formData = {};
     errors.found = 0;
 
     if(!email){
         errors.email = true;
-        formData.email = email;
         errors.found++;
-        errors.login = true;
     }
     
     if(!password){
         errors.password = true;
-        formData.password = password;
         errors.found++;
-        errors.login = true;
     }
 
     //errors found
     if(errors.found > 0){
+        errors.login = true;
+        errors.data = req.body;
 
         //save error sesssion to display on next page
         req.session.errors = errors;
-        req.session.formData = formData;
         
         //redirect to index page
         if(onPage == 'index'){
@@ -111,10 +107,71 @@ app.post("/login", (req,res) =>{
     }
     else {
         //no errors, login valid!
+        //redirect to dashboard!
         res.json({from: onPage});
     }
 
-})
+});
+
+//
+//
+//process register form
+app.post("/register", (req,res) =>{
+    let { firstName, lastName, email, password, on_page: onPage } = req.body;
+    let errors = {};
+    errors.found = 0;
+
+    //firstName
+    if(!firstname){
+        errors.firstName = true;
+        errors.found++;
+    }
+    //lastName
+    if(!lastName){
+        errors.lastName = true;
+        errors.found++;
+    }   
+    //email
+    if(!email){
+        errors.email = true;
+        errors.found++;
+    }
+    //password
+    if(!password){
+        errors.password = true;
+        errors.found++;
+    }
+
+
+    //errors found
+    if(errors.found > 0){
+        errors.register = true;
+        errors.data = req.body;
+
+        //save error sesssion to display on next page
+        req.session.errors = errors;
+        
+        //redirect to index page
+        if(onPage == 'index'){
+            res.redirect("/");
+        }
+        //redirect to on the menu page
+        else if(onPage == 'on-the-menu'){
+            res.redirect("/on-the-menu")
+        }
+    }
+    else {
+        //no errors, register valid!
+
+        //
+        //send email
+
+        //
+        //redirect to dashboard!
+        res.json({from: onPage});
+    }
+
+});
 
 //make server listen to port specified
 app.listen(port, () => {

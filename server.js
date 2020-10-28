@@ -78,6 +78,13 @@ app.get("/on-the-menu", (req,res) => {
     req.session.errors = null;//clear errors
 });
 
+//Dashboard
+app.get("/dashboard", (req,res) => {
+    res.render('dashboard', {
+        title: 'Dashboard - EasyChef Meal Kit'
+    });
+});
+
 //Login form validation
 app.post("/login", (req,res) =>{
     let { email, password, on_page: onPage } = req.body;
@@ -114,7 +121,7 @@ app.post("/login", (req,res) =>{
     //no errors found
     else {
         //redirect to dashboard!
-        res.json({from: onPage});
+        res.redirect("/dashboard");
     }
 
 });

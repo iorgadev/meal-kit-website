@@ -119,6 +119,11 @@ img {vertical-align: middle;}
 // ********************************
 */
 
+.form_error {
+    color:#ce4242;
+    padding-bottom:25px;
+}
+
 
 /* header section */
 #header {

@@ -79,7 +79,10 @@
                 {{/if}}
                 {{#if errors.email_length }}
                 <span class="form_error">Email must be at least 6 characters long.</span>
-                {{/if}}                
+                {{/if}}   
+                {{#if errors.email_invalid }}
+                <span class="form_error">Email entered is Invalid.</span>
+                {{/if}}                                
             {{/if}}
 
             <input {{#if errors.register}}{{#if errors.password}}class="input_error" {{/if}}{{/if}}type="text" name="password" value="{{#if errors.register}}{{errors.data.password}}{{/if}}" placeholder="Password">

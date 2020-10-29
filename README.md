@@ -1,7 +1,8 @@
 # Meal-Kit-Website
-web322 - meal kit assignment website
+Web322 - Assignment 1-5 (currently on #2)
 
-currently on #2
+Deployed to Heroku:
+view @ https://easychef-ai.herokuapp.com
 
 28-OCT-2020
 ---

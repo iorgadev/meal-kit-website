@@ -123,6 +123,9 @@ img {vertical-align: middle;}
     color:#ce4242;
     padding-bottom:25px;
 }
+.input_error {
+    border-color:#ce4242;
+}
 
 
 /* header section */

@@ -33,13 +33,13 @@
     <span class="close">×</span>
     <h1>- Login -</h1>
         <form action="/login" method="POST">
-            <input type="text" name="email" value="{{#if errors.login}}{{errors.data.email}}{{/if}}" placeholder="Email Address">
+            <input {{#if errors.login}}{{#if errors.email}}class="input_error" {{/if}}{{/if}}type="text" name="email" value="{{#if errors.login}}{{errors.data.email}}{{/if}}" placeholder="Email Address">
             {{#if errors.login}}
                 {{#if errors.email }}
                 <span class="form_error">Please enter a valid email address.</span>
                 {{/if}}
             {{/if}}
-            <input type="text" name="password" value="{{#if errors.login}}{{errors.data.password}}{{/if}}" placeholder="Password">
+            <input {{#if errors.login}}{{#if errors.password}}class="input_error" {{/if}}{{/if}}type="text" name="password" value="{{#if errors.login}}{{errors.data.password}}{{/if}}" placeholder="Password">
             {{#if errors.login}}
                 {{#if errors.password }}
                 <span class="form_error">Please enter a password.</span>
@@ -58,21 +58,21 @@
     <span class="close">×</span>
     <h1>- Register -</h1>
         <form action="/register" method="POST">
-            <input type="text" name="firstName" value="{{#if errors.register}}{{errors.data.firstName}}{{/if}}" placeholder="First Name">
+            <input {{#if errors.register}}{{#if errors.firstName}}class="input_error" {{/if}}{{/if}}type="text" name="firstName" value="{{#if errors.register}}{{errors.data.firstName}}{{/if}}" placeholder="First Name">
             {{#if errors.register}}
                 {{#if errors.firstName }}
                 <span class="form_error">Please enter a complete First Name.</span>
                 {{/if}}
             {{/if}}    
 
-            <input type="text" name="lastName" value="{{#if errors.register}}{{errors.data.lastName}}{{/if}}" placeholder="Last Name">
+            <input {{#if errors.register}}{{#if errors.lastName}}class="input_error" {{/if}}{{/if}}type="text" name="lastName" value="{{#if errors.register}}{{errors.data.lastName}}{{/if}}" placeholder="Last Name">
             {{#if errors.register}}
                 {{#if errors.lastName }}
                 <span class="form_error">Please enter a complete Last Name.</span>
                 {{/if}}
             {{/if}}    
 
-            <input type="text" name="email" value="{{#if errors.register}}{{errors.data.email}}{{/if}}" placeholder="Email Address">
+            <input {{#if errors.register}}{{#if errors.email}}class="input_error" {{/if}}{{/if}}type="text" name="email" value="{{#if errors.register}}{{errors.data.email}}{{/if}}" placeholder="Email Address">
             {{#if errors.register}}
                 {{#if errors.email }}
                 <span class="form_error">Please enter a valid email address.</span>
@@ -82,7 +82,7 @@
                 {{/if}}                
             {{/if}}
 
-            <input type="text" name="password" value="{{#if errors.register}}{{errors.data.password}}{{/if}}" placeholder="Password">
+            <input {{#if errors.register}}{{#if errors.password}}class="input_error" {{/if}}{{/if}}type="text" name="password" value="{{#if errors.register}}{{errors.data.password}}{{/if}}" placeholder="Password">
             {{#if errors.register}}
                 {{#if errors.password }}
                 <span class="form_error">Please enter a valid password.</span>

@@ -1,5 +1,7 @@
-# meal-kit-website
+# Meal-Kit-Website
 web322 - meal kit assignment website
+
+currently on #2
 
 28-OCT-2020
 ---

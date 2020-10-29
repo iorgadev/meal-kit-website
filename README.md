@@ -7,8 +7,12 @@ view @ https://easychef-ai.herokuapp.com
 28-OCT-2020
 ---
  - form validation (server side)
- - dashboard page
+ - dashboard page (bare for now, pretty later)
  - responsive (mainly done in previous submission)
+
+ TO DO for next Assignment Submission:
+ - clean up CSS...
+ - resize elements, fonts, images, etc throughout site
 
 
 12-OCT-2020

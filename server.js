@@ -18,15 +18,6 @@ const port = process.env.PORT || 8080;
 
 //static meals data module file
 const meals = require(__dirname + '/meals.js');
-//lets create a grouped array for meals by category
-//to send to the on-the-menu page
-const groupBy = (data, key) => {
-    return data.reduce((group, currentMeal) => {
-        (group[currentMeal[key]] = group[currentMeal[key]] || []).push(currentMeal);
-        return group;
-    }, {});
-};
-const category = groupBy(meals, 'category');
 
 //serve static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -60,11 +51,21 @@ app.get("/", (req,res) => {
         onPage: 'index',
         errors
     });
-    req.session.errors = null;//clear errors
+    req.session.errors = null;
 });
 
-//On The Menu page
+//On The Menu Page
 app.get("/on-the-menu", (req,res) => {
+    //lets create a grouped array for meals by category
+    //to send to the on-the-menu page
+    const groupBy = (data, key) => {
+        return data.reduce((group, currentMeal) => {
+            (group[currentMeal[key]] = group[currentMeal[key]] || []).push(currentMeal);
+            return group;
+        }, {});
+    };
+    const category = groupBy(meals, 'category');   
+     
     onPage = 'on-the-menu';
     let errors = req.session.errors;
     res.render('on-the-menu', {
@@ -73,14 +74,14 @@ app.get("/on-the-menu", (req,res) => {
         onPage,
         errors
     });
-    req.session.errors = null;//clear errors
+    req.session.errors = null;
 });
 
-//Dashboard
+//Dashboard Page
 app.get("/dashboard", (req,res) => {
     onPage = 'dashboard';
     res.render('dashboard', {
-        title: 'Dashboard - EasyChef Meal Kit',
+        title: 'Account Dashboard - EasyChef Meal Kit',
         onPage
     });
 });
@@ -91,11 +92,12 @@ app.post("/login", (req,res) =>{
     let errors = {};
     errors.found = 0;
 
+    //email null check
     if(!email){
         errors.email = true;
         errors.found++;
     }
-    
+    //password null check
     if(!password){
         errors.password = true;
         errors.found++;
@@ -109,20 +111,16 @@ app.post("/login", (req,res) =>{
         //save error sesssion to display on next page
         req.session.errors = errors;
         
-        //redirect to index page
-        if(onPage == 'index'){
+        //redirect to page where form was filled from
+        if(onPage == 'index')
             res.redirect("/");
-        }
-        //redirect to on the menu page
-        else if(onPage == 'on-the-menu'){
+        else if(onPage == 'on-the-menu')
             res.redirect("/on-the-menu");
-        }
-        else {
+        else
             res.redirect("/");
-        }
     }
-    //no errors found
     else {
+        //no errors found
         //redirect to dashboard!
         res.redirect("/dashboard");
     }
@@ -136,42 +134,44 @@ app.post("/register", (req,res) =>{
     let errors = {};
     errors.found = 0;
 
-    //firstName
+    //firstName null check
     if(!firstName){
         errors.firstName = true;
         errors.found++;
     }
 
-    //lastName
+    //lastName null check
     if(!lastName){
         errors.lastName = true;
         errors.found++;
     }   
 
-    //email
+    //email null check
     if(!email){
         errors.email = true;
         errors.found++;
     }
     else {
+        //minimum email length a@b.cd
         if(email.length < 6){
             errors.email_length = true;
             errors.found++;
         }
     }
 
-    //password
+    //password null check
     if(!password){
         errors.password = true;
         errors.found++;
     }
     else{
-        //validate password length
+        //advanced checks
+        //1. validate password length
         if(password.length < 6 || password.length > 12){
             errors.password_length = true;
             errors.found++;
         }
-        //if length okay, validate contents of password
+        //2. if length okay, validate contents of password
         else{
             if(!/^[A-Za-z0-9]+$/.test(password)) {
                 errors.password_contains = true;
@@ -189,17 +189,13 @@ app.post("/register", (req,res) =>{
         //save error sesssion to display on next page
         req.session.errors = errors;
         
-        //redirect to index page
-        if(onPage == 'index'){
+        //redirect to page where form was filled from
+        if(onPage == 'index')
             res.redirect("/");
-        }
-        //redirect to on the menu page
-        else if(onPage == 'on-the-menu'){
+        else if(onPage == 'on-the-menu')
             res.redirect("/on-the-menu")
-        }
-        else {
+        else 
             res.redirect("/");
-        }
     }
     else {
         //no errors, register valid!
@@ -220,14 +216,13 @@ app.post("/register", (req,res) =>{
         };
 
         sendgridMail.send(msg)
-            .then(() => {
-                res.redirect("/dashboard");
-            })
-            .catch(err => {
-                console.error(`Error sending email: ${err}`);
-            });
+        .then(() => {
+            res.redirect("/dashboard");
+        })
+        .catch(err => {
+            console.error(`Error sending email: ${err}`);
+        });
     }
-
 });
 
 //make server listen to port specified

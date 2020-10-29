@@ -197,6 +197,9 @@ app.post("/register", (req,res) =>{
         else if(onPage == 'on-the-menu'){
             res.redirect("/on-the-menu")
         }
+        else {
+            res.redirect("/");
+        }
     }
     else {
         //no errors, register valid!

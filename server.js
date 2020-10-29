@@ -224,9 +224,9 @@ app.post("/register", (req,res) =>{
             //IF the above email validation passes, but the email is truly NOT valid
             //the site will hang and throw an error in the background
             //this is to deal with that error
-            errors.register = true;
-            errors.data = req.body;
             if(err.code == 400){
+                errors.register = true;
+                errors.data = req.body;
                 errors.email_invalid = true;
                 req.session.errors = errors;
                 res.redirect("/");

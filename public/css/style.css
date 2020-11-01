@@ -13,7 +13,7 @@
 // ********************************
 */
 
-@import url(https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&family=Roboto&family=Rubik&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&family=Roboto&family=Raleway:wght@300&family=Rubik&display=swap);
 
 /*color palette*/
 :root {
@@ -308,7 +308,7 @@ img {vertical-align: middle;}
     margin:0 auto;
     padding:50px 0px 50px;
     box-sizing: border-box;
-    background-color:var(--page-color);
+    background-color:white;
 }
 #top-meals h2 {
     text-transform: uppercase;
@@ -318,7 +318,7 @@ img {vertical-align: middle;}
 
 .top-meal {
     background:#ffffff;
-    padding:5px;
+    /* padding:5px; */
     -webkit-box-shadow: 10px 10px 10px -10px rgb(0, 0, 0);
     box-shadow: 10px 10px 10px -10px rgb(0, 0, 0);
     width:85%;
@@ -953,7 +953,6 @@ input {
         margin:0 auto;
         padding:50px 0px 50px;
         box-sizing: border-box;
-        background-color:var(--page-color);
     }
     #top-meals h2 {
         font-size:3rem;
@@ -962,7 +961,6 @@ input {
     }
 
     .top-meal {
-        padding:5px;
         width:27%;
         display:inline-block;
         margin: 20px 15px 20px;
@@ -972,7 +970,6 @@ input {
     }
     .top-meal img {
         width:100%;
-        margin-bottom:10px;
     }
     .top-meal span {
         font-size:1rem;
@@ -990,6 +987,126 @@ input {
     .top-meal p {
         margin:0;
         font-size:.75rem;
+    }
+
+    .card {
+        text-align: left;
+    }
+    .card .meal {
+        display: block;
+        width:100%;
+    }
+    .card span {
+        font-size:1.75rem;
+        text-transform: uppercase;
+    }
+    .card img {
+        margin-bottom:20px;
+    }
+    .card .title {
+        padding-left:10px;
+        text-align: left;
+        font-family: 'Raleway', sans-serif;
+    }
+    .card p {
+        padding-left:15px;
+        font-family: 'Raleway', sans-serif;
+    }
+    .card .tags {
+        display:block;
+        margin:0;
+        padding:5px;
+        width:100%;
+    }
+    .card .tags li {
+        display:inline;
+        float:left;
+        margin-left:10px;
+        background:#fddad1;
+        padding:3px;
+        border-radius: 5px;
+        font-family: 'Raleway', sans-serif;
+    }
+    .card .tags li:last-child {
+        margin-left:10px;
+        float:right;
+        background-color: #ffffff;
+        font-size:1.25rem;
+        font-family: 'Roboto';
+        /* color:var(--light-text-color); */
+        color:var(--primary-color);
+    }
+    .stats {
+        margin-top:30px;
+        height:6rem;
+        vertical-align: middle;
+        border-top:1px solid #fddad1;
+    }
+    .stats::after{
+        content:"";
+        display:block;
+    }
+    .stats div {
+        /* display: inline-block; */
+        /* display:table; */
+        width:30%;
+        float:left;
+        text-align: center;
+        height:100%;
+        vertical-align: middle;
+        padding:25px 15px 15px 15px;
+        color:var(--primary-color);
+    }
+    .stats div:last-child {
+        float:right;
+        width:40%; /*.big*/
+    }
+    .stats img {
+        max-width:48px;
+        display:inline;
+        float:left;
+        position: relative;
+        top:0px;
+    }
+    .stats .num {
+        font-size:2.5rem;
+        display:block;
+    }
+    .stats .text {
+        font-size:.6rem;
+        position: relative;
+        top:-5px;
+    }
+    .stats .first {
+        background-color:#faf6f5;  
+        height:100%;      
+        display:block;
+    }
+    .stats .mid {
+        /* padding:15px 15px 20px 15px; */
+        background-color:#faf0ed;  
+        height:100%;      
+        display:block;
+    }    
+    .stats .mid img {
+        top:5px;
+    }
+    .stats .big {
+        padding:15px 15px 20px 15px;
+        background-color:#fdeae7;
+    }
+    .stats .big img {
+        /* top:10px; */
+        max-width:64px;
+        margin-bottom:0px;
+    }
+    .stats .big .num {
+        margin-left:10px;
+        font-size: 2.5rem;
+        padding-top:10px;
+    }
+    .stats .big .text {
+        font-size:0.9rem;
     }
 
 

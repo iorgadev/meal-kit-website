@@ -4,12 +4,7 @@
 
     {{#each meal}}
         {{#if top}}                      
-        <div class="top-meal">
-            <span class="price">${{price}}</span>
-            <img src="../images/meals/{{image}}" alt="{{title}} meal">
-            <span>{{title}}</span>
-            <p>{{included}}</p>
-        </div>
+            {{>testing/top-meal}}
         {{/if}}
     {{/each}}
 </div>

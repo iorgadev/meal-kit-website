@@ -1,0 +1,33 @@
+<div class="top-meal card">
+    <div class="meal">
+        {{!-- <span class="price">${{price}}</span> --}}
+        <img src="../images/meals/{{image}}" alt="{{title}} meal">
+        <span class="title">{{title}}</span>
+        {{!-- <p>{{included}}</p> --}}
+
+        <ul class="tags">
+        {{#each included}}
+            <li>{{this}}</li>
+        {{/each}}
+            <li class="cost">${{price}}</li>
+        </ul>
+    </div>
+
+    <div class="stats center">
+        <div class="first">
+            <img src="../images/icons/card/time.png">
+            <span class="num">{{cookingTime}}</span>
+            <span class="text">minutes</span>
+        </div>
+        <div class="mid">
+            <img src="../images/icons/card/servings.png">
+            <span class="num">{{servings}}</span>
+            <span class="text">servings</span>
+        </div>
+        <div class="big">
+            <img src="../images/icons/card/calories.png">
+            <span class="num">{{calories}}</span>
+            <span class="text">calories</span>
+        </div>
+    </div>
+</div>

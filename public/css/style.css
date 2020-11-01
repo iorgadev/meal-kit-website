@@ -133,6 +133,7 @@ img {vertical-align: middle;}
     position:fixed;
     z-index: 5;
     width:100%;
+    transition: 0.65s all ease;
 }
 .menu-button {
     width:32px;

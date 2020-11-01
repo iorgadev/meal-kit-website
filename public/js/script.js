@@ -14,13 +14,19 @@ var scrollTop = () => (window.pageYOffset !== undefined) ? window.pageYOffset : 
 const scrollThreshold = 80;
 var menuOpened = false;
 let header = document.getElementById("header");
+let logo = document.getElementById("logo");
 var stickyHeader = () => {
     if(scrollTop()>scrollThreshold){
-        header.style.backgroundColor = "#242424";
+        header.style.backgroundColor = "#242424e8";
+        header.style.padding = "5px 15px 5px 15px";
+        //header.style.scale = "0.9";
+        
     }
     else {
         if(!menuOpened) // dont make header transparent if menu still opened
             header.style.backgroundColor = "initial";
+            header.style.padding = "15px";
+            //header.style.scale = initial;
     }
 }
 stickyHeader();

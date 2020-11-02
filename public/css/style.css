@@ -420,6 +420,7 @@ img {vertical-align: middle;}
     background-color:#000000;
     color:#ffffff;
     /* height:100px; */
+    overflow: hidden;
 }
 .easychef {
     background-color:var(--primary-color);
@@ -1346,6 +1347,29 @@ input {
     }
     .easychef .links div {
         width:50%;
+    }
+
+
+    #footer {
+        background-color: var(--primary-color);
+        background-image:url("../images/footer-bg.jpg");
+        background-size:cover;
+        height:100vh;
+    }
+    .footer-nav {
+        width:50%;
+        display:inline;
+        float:left;
+    }
+    .wide-logo {
+        background-image:url("../images/footer-logo.png");
+        background-position-y: -150px;
+        background-position-x: -100px;
+        height:70vh;
+        width:50%;
+        float:right;
+        
+        display: block;
     }
 
 

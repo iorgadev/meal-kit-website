@@ -18,15 +18,24 @@ let logo = document.getElementById("logo");
 var stickyHeader = () => {
     if(scrollTop()>scrollThreshold){
         header.style.backgroundColor = "#242424e8";
-        header.style.padding = "5px 15px 5px 15px";
-        //header.style.scale = "0.9";
-        
+        header.style.padding = "5px 15px 5px 15px";       
     }
     else {
-        if(!menuOpened) // dont make header transparent if menu still opened
+        if(!menuOpened){
             header.style.backgroundColor = "initial";
             header.style.padding = "15px";
-            //header.style.scale = initial;
+        } 
+    }
+    if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight-50) {
+        // you're at the bottom of the page
+        //header.style.display = "none";
+        header.style.transform = "translateY(-100%)";
+
+        console.log("bottom of page");
+    }
+    else {
+        header.style.display = "block";
+        header.style.transform = "translateY(0%)";
     }
 }
 stickyHeader();
@@ -35,6 +44,8 @@ stickyHeader();
 window.onscroll = () => {
     stickyHeader();
 }
+
+
 
 //for mobile/tablet devices, make dropdown appear when menu button clicked
 var show_menu = document.getElementsByClassName("menu-button")[0];

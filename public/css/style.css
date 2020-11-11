@@ -1003,6 +1003,9 @@ input {
     .card .meal {
         display: block;
         width:100%;
+        clear: both;
+        overflow: auto;
+        margin-bottom: 10px;
     }
     .card span {
         font-size:1.75rem;
@@ -1013,7 +1016,7 @@ input {
         width:100%;
     }
     .card .title {
-        padding-left:10px;
+        /* padding-left:2px; */
         text-align: left;
         font-family: 'Raleway', sans-serif;
     }
@@ -1026,6 +1029,7 @@ input {
         margin:0;
         padding:5px;
         width:100%;
+        clear: both;
     }
     .card .tags li {
         display:inline;
@@ -1036,24 +1040,25 @@ input {
         border-radius: 5px;
         font-family: 'Raleway', sans-serif;
     }
-    .card .tags li:last-child {
+    /* .card .tags li:last-child {
         margin-left:10px;
         float:right;
         background-color: #ffffff;
         font-size:1.25rem;
         font-family: 'Roboto';
-        /* color:var(--light-text-color); */
         color:var(--primary-color);
-    }
+    } */
     .stats {
-        margin-top:30px;
-        height:6rem;
+        /* margin-top:30px; */
+        /* height:6rem; */
         vertical-align: middle;
         border-top:1px solid #fddad1;
+        overflow: auto;
     }
     .stats::after{
         content:"";
         display:block;
+        clear: both;
     }
     .stats div {
         /* display: inline-block; */
@@ -1063,7 +1068,7 @@ input {
         text-align: center;
         height:100%;
         vertical-align: middle;
-        padding:25px 15px 15px 15px;
+        padding:15px 15px 15px 15px;
         color:var(--primary-color);
         -webkit-box-shadow: 0px 10px 10px -5px #353535 inset;
         box-shadow: 0px 10px 10px -10px #353535 inset;
@@ -1073,14 +1078,16 @@ input {
         width:40%; /*.big*/
     }
     .stats img {
-        max-width:48px;
-        display:inline;
-        float:left;
+        max-width:36px;
+        display:block;
+        /* float:left; */
+        margin:0 auto;
         position: relative;
         top:0px;
+        margin-bottom:10px;
     }
     .stats .num {
-        font-size:2.5rem;
+        font-size:2rem;
         display:block;
     }
     .stats .text {
@@ -1100,20 +1107,21 @@ input {
         display:block;
     }    
     .stats .mid img {
-        top:5px;
+        /* top:5px; */
     }
     .stats .big {
-        padding:15px 15px 20px 15px;
+        /* padding:15px 10px 10px 10px; */
         background-color:#fdeae7;
     }
     .stats .big img {
         /* top:10px; */
-        max-width:64px;
+        max-width:36px;
         margin-bottom:0px;
+        margin-bottom:0 auto;
     }
     .stats .big .num {
-        margin-left:10px;
-        font-size: 2.5rem;
+        /* margin-left:10px; */
+        font-size: 2rem;
         padding-top:10px;
     }
     .stats .big .text {
@@ -1310,6 +1318,9 @@ input {
         font-size:1rem;
     }
 
+
+
+
     /* footer */
     .easychef {
         background-color:var(--primary-color);
@@ -1352,9 +1363,9 @@ input {
 
     #footer {
         background-color: var(--primary-color);
-        background-image:url("../images/footer-bg.jpg");
+        /* background-image:url("../images/footer-bg.jpg"); */
         background-size:cover;
-        height:100vh;
+        /* height:100vh; */
     }
     .footer-nav {
         width:50%;

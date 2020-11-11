@@ -63,7 +63,7 @@ module.exports = [
         id: 5,
         image: 'pexels-engin-akyurt-2347311-min.jpg',
         title: 'Veggie Fried Noodle',
-        included: 'rice noodle, red pepper, brocolli',
+        included: ['rice noodle', 'red pepper', 'brocolli'],
         description: '',
         category: 'lunch',
         price: 12.34,

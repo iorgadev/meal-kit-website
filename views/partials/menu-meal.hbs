@@ -1,0 +1,9 @@
+<!-- content | menu meals -->
+<div id="menu-meals" class="row center">
+    {{#each category}}
+        <h2>- {{@key}} menu -</h2>
+        {{#each this}}
+            {{>top-meal}}
+        {{/each}}
+    {{/each }}
+</div>

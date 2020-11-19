@@ -1,0 +1,13 @@
+<div id="menu-meals" class="row center">
+    {{#each category}}
+        <h2>- {{@key}} menu -</h2>
+        {{#each this}}
+            <div class="menu-meal">
+                {{!-- <span class="price">${{price}}</span> --}}
+                <img src="../images/meals/{{image}}" alt="{{title}} meal">
+                <span>{{title}}</span>
+                <p>{{included}}</p>
+            </div>
+        {{/each}}
+    {{/each }}
+</div>

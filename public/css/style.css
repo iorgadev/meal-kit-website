@@ -360,6 +360,7 @@ img {vertical-align: middle;}
     box-sizing: border-box;
     -webkit-box-shadow: 10px 10px 20px -10px rgb(0, 0, 0);
     box-shadow: 10px 10px 20px -10px rgb(0, 0, 0);
+    border-left:1px solid #f0f0f0;
 }
 .card .meal {
     display: block;
@@ -464,51 +465,23 @@ img {vertical-align: middle;}
     margin:0 auto;
     padding:40px 0px 40px;
     box-sizing: border-box;
-    background-color:var(--page-color);
+    background-color:#ffffff;
 }
 #menu-meals h2:first-child {
     margin-top:0;
 }
 #menu-meals h2 {
     margin-top:60px;
-    margin-bottom:-25px;
+    margin-bottom:-20px;
     color:var(--primary-color);
     text-transform: uppercase;
     font-size: 2rem;
 }
 
-.menu-meal {
-    background:#ffffff;
-    padding:10px;
-    -webkit-box-shadow: 0px 0px 30px -10px rgb(0, 0, 0);
-    box-shadow: 0px 0px 30px -10px rgb(0, 0, 0);
-    width:80%;
-    display:inline-block;
-    /* float:left; */
-    margin: 40px 20px 10px;
-    box-sizing: border-box;
-    /* position: relative; */
+#menu-meals .card {
+    background-color:#ffffff;
 }
-.menu-meal img {
-    width:100%;
-    margin-bottom:10px;
-}
-.menu-meal span {
-    font-size:1.25rem;
-    color:var(--primary-color);
-}
-.menu-meal .price {
-    position: absolute;
-    font-size:2rem;
-    /* color:#08881d; */
-    color:var(--light-text-color);
-    padding:5px 5px 0px 5px;
-    margin:10px;
-    background-color: #00000070;
-}
-.menu-meal p {
-    margin:0;
-}
+
 
 
 /* dashboard */
@@ -1122,53 +1095,10 @@ input {
 
     /* on the menu meals */
     #menu-meals {
-        width:100%;
-        margin:0 auto;
         padding:60px 0px 40px;
-        box-sizing: border-box;
-        background-color:var(--page-color);
-    }
-    #menu-meals h2:first-child {
-        margin-top:0;
     }
     #menu-meals h2 {
-        /* margin-top:80px; */
-        color:var(--primary-color);
-        text-transform: uppercase;
         font-size: 3rem;
-    }
-
-    .menu-meal {
-        background:#ffffff;
-        padding:10px;
-        -webkit-box-shadow: 0px 0px 30px -10px rgb(0, 0, 0);
-        box-shadow: 0px 0px 30px -10px rgb(0, 0, 0);
-        width:40%;
-        display:inline-block;
-        /* float:left; */
-        margin: 40px 20px 20px;
-        box-sizing: border-box;
-        /* position: relative; */
-    }
-    .menu-meal img {
-        width:100%;
-        margin-bottom:10px;
-    }
-    .menu-meal span {
-        font-size:1.25rem;
-        color:var(--primary-color);
-    }
-    .menu-meal .price {
-        position: absolute;
-        font-size:2rem;
-        /* color:#08881d; */
-        color:var(--light-text-color);
-        padding:5px 5px 0px 5px;
-        margin:10px;
-        background-color: #00000070;
-    }
-    .menu-meal p {
-        margin:0;
     }
 
 
@@ -1185,13 +1115,10 @@ input {
         font-size: 1rem;
         padding:0 5px 0;
     }
-
     .easychef .social-media {
         width:60%;
         float:right;
     }
-
-
     .easychef .links {
         margin-top:20px;
         width:60%;
@@ -1317,6 +1244,10 @@ input {
         font-size:.8rem;
     }
 
+    #menu-meals .card {
+        width:44%;
+    }
+
 
 
     /* footer */
@@ -1418,9 +1349,6 @@ input {
         line-height: 8rem;
     }
 
-    .menu-meal {
-        margin-bottom:40px;
-    }
 
     .easychef h4 {
         font-size:2rem;

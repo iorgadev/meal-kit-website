@@ -352,6 +352,112 @@ img {vertical-align: middle;}
 }
 
 
+.card {
+    width:85%; 
+    text-align: left;
+    display:inline-block;
+    margin: 20px 15px 20px;
+    box-sizing: border-box;
+    -webkit-box-shadow: 10px 10px 20px -10px rgb(0, 0, 0);
+    box-shadow: 10px 10px 20px -10px rgb(0, 0, 0);
+}
+.card .meal {
+    display: block;
+    width:100%;
+    clear: both;
+    overflow: auto;
+    margin-bottom: 10px;
+}
+.card img {
+    margin-bottom:10px;
+    width:100%;
+}
+.card .title {
+    font-size:1.25rem;
+    text-transform: uppercase;
+    text-align: left;
+    font-family: 'Raleway', sans-serif;
+    position: relative;
+    left:10px;
+}
+.card p {
+    padding-left:15px;
+    font-family: 'Raleway', sans-serif;
+}
+.card .tags {
+    display:block;
+    margin:0;
+    padding:5px;
+    width:100%;
+    clear: both;
+}
+.card .tags li {
+    display:inline;
+    float:left;
+    margin-left:10px;
+    margin-top:4px;
+    background:#ece8e7;
+    padding:3px;
+    border-radius: 5px;
+    font-family: 'Raleway', sans-serif;
+}
+.stats {
+    vertical-align: middle;
+    border-top:1px solid #fddad1;
+    overflow: auto;
+}
+.stats::after{
+    content:"";
+    display:block;
+    clear: both;
+}
+.stats div {
+    width:24%;
+    float:left;
+    text-align: center;
+    height:100%;
+    vertical-align: middle;
+    padding:15px 5px 5px 5px;
+    color:#4d4d4d;
+    -webkit-box-shadow: 0px 10px 10px -5px #353535 inset;
+    box-shadow: 0px 10px 10px -10px #353535 inset;
+}
+.stats div:last-child {
+    float:right;
+    width:28%; /*.big*/
+}
+.stats img {
+    max-width:36px;
+    display:block;
+    margin:0 auto;
+    margin-bottom:5px;
+    position: relative;
+    top:0px;
+}
+.stats .num {
+    font-size:1.5rem;
+    display:block;
+}
+.stats .text {
+    font-size:.7rem;
+    position: relative;
+    text-transform: uppercase;
+    top:-5px;
+}
+.stats .first {
+    background-color:#faf6f5;  
+}
+.stats .mid {
+    background-color:#faf0ed;  
+}
+.stats .last {
+    background-color:#f7e9e5;
+}
+.stats .big {
+    background-color:#fad9d4;
+}
+
+
 /* on the menu meals */
 #menu-meals {
     width:100%;
@@ -992,99 +1098,16 @@ input {
     }
 
     .card {
-        width:27%;
-        text-align: left;
-        display:inline-block;
-        margin: 20px 15px 20px;
-        box-sizing: border-box;
-        -webkit-box-shadow: 10px 10px 30px -10px rgb(0, 0, 0);
-        box-shadow: 10px 10px 30px -10px rgb(0, 0, 0);
-    }
-    .card .meal {
-        display: block;
-        width:100%;
-        clear: both;
-        overflow: auto;
-        margin-bottom: 10px;
+        width:43%;
     }
     .card span {
         font-size:1.75rem;
         text-transform: uppercase;
     }
-    .card img {
-        margin-bottom:20px;
-        width:100%;
-    }
-    .card .title {
-        /* padding-left:2px; */
-        text-align: left;
-        font-family: 'Raleway', sans-serif;
-    }
-    .card p {
-        padding-left:15px;
-        font-family: 'Raleway', sans-serif;
-    }
-    .card .tags {
-        display:block;
-        margin:0;
-        padding:5px;
-        width:100%;
-        clear: both;
-    }
-    .card .tags li {
-        display:inline;
-        float:left;
-        margin-left:10px;
-        background:#ece8e7;
-        padding:3px;
-        border-radius: 5px;
-        font-family: 'Raleway', sans-serif;
-    }
-    /* .card .tags li:last-child {
-        margin-left:10px;
-        float:right;
-        background-color: #ffffff;
-        font-size:1.25rem;
-        font-family: 'Roboto';
-        color:var(--primary-color);
-    } */
     .stats {
-        /* margin-top:30px; */
-        /* height:6rem; */
         vertical-align: middle;
         border-top:1px solid #fddad1;
         overflow: auto;
-    }
-    .stats::after{
-        content:"";
-        display:block;
-        clear: both;
-    }
-    .stats div {
-        /* display: inline-block; */
-        /* display:table; */
-        width:30%;
-        float:left;
-        text-align: center;
-        height:100%;
-        vertical-align: middle;
-        padding:15px 15px 15px 15px;
-        color:var(--primary-color);
-        -webkit-box-shadow: 0px 10px 10px -5px #353535 inset;
-        box-shadow: 0px 10px 10px -10px #353535 inset;
-    }
-    .stats div:last-child {
-        float:right;
-        width:40%; /*.big*/
-    }
-    .stats img {
-        max-width:36px;
-        display:block;
-        /* float:left; */
-        margin:0 auto;
-        position: relative;
-        top:0px;
-        margin-bottom:10px;
     }
     .stats .num {
         font-size:2rem;
@@ -1092,41 +1115,9 @@ input {
     }
     .stats .text {
         font-size:.6rem;
-        position: relative;
         top:-5px;
     }
-    .stats .first {
-        background-color:#faf6f5;  
-        height:100%;      
-        display:block;
-    }
-    .stats .mid {
-        /* padding:15px 15px 20px 15px; */
-        background-color:#faf0ed;  
-        height:100%;      
-        display:block;
-    }    
-    .stats .mid img {
-        /* top:5px; */
-    }
-    .stats .big {
-        /* padding:15px 10px 10px 10px; */
-        background-color:#fdeae7;
-    }
-    .stats .big img {
-        /* top:10px; */
-        max-width:36px;
-        margin-bottom:0px;
-        margin-bottom:0 auto;
-    }
-    .stats .big .num {
-        /* margin-left:10px; */
-        font-size: 2rem;
-        padding-top:10px;
-    }
-    .stats .big .text {
-        font-size:0.9rem;
-    }
+
 
 
     /* on the menu meals */
@@ -1318,6 +1309,13 @@ input {
         font-size:1rem;
     }
 
+    /* top meal card */
+    .card {
+        width:27%;
+    }
+    .stats .text {
+        font-size:.8rem;
+    }
 
 
 

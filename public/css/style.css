@@ -1350,6 +1350,10 @@ input {
     }
 
 
+    .card .title {
+        font-size:2rem;
+    }
+
     .easychef h4 {
         font-size:2rem;
     }
@@ -1386,6 +1390,13 @@ input {
     }
     #hero-small p {
         font-size:1.5rem;
+    }
+
+    .card .stats .num {
+        font-size:1.25rem;
+    }
+    .card .stats .text {
+        font-size:.65rem;
     }
 
     .easychef .social-media img {

@@ -8,13 +8,15 @@
 
 const path = require("path");
 const express = require("express");
-const app = express();
-const hbs = require('express-handlebars');
-const bodyParser = require('body-parser');
 const session = require('express-session');
+const hbs = require('express-handlebars');
+const app = express();
+const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 dotenv.config({path:"./config/keys.env"});
 const port = process.env.PORT || 8080;
+
+const bcrypt = require("bcryptjs");
 
 //static meals data module file
 const meals = require(__dirname + '/meals.js');
@@ -36,10 +38,37 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //sessions - error keeping for now
-app.use(session({secret: 'secret-meal-kits', resave: false, saveUninitialized: true}));
+app.use(session({secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true}));
+
+
+//MongoDB connection
+var mongoose = require("mongoose");
+mongoose.connect(process.env.MONGO_DB_CONN, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+}).then(() => {
+    console.log("MongoDB connection established.");
+}).catch((err) => {
+    console.log("MongoDB connection error: "+err);
+});
+
+const userModel = require("./models/user");
+
+
 
 //Routes
 let onPage = '';
+
+let errorRedirect = (res, page) => {
+//redirect to page where form was filled from
+if(page == 'index')
+    res.redirect("/");
+else if(page == 'on-the-menu')
+    res.redirect("/on-the-menu");
+else
+    res.redirect("/");
+}
 
 //Main Page
 app.get("/", (req,res) => {
@@ -80,10 +109,24 @@ app.get("/on-the-menu", (req,res) => {
 //Dashboard Page
 app.get("/dashboard", (req,res) => {
     onPage = 'dashboard';
-    res.render('dashboard', {
-        title: 'Account Dashboard - EasyChef Meal Kit',
-        onPage
-    });
+
+    //if not logged in
+    if(req.session.user){
+        res.render('dashboard', {
+            title: 'Account Dashboard - EasyChef Meal Kit',
+            userInfo: req.session.user,
+            onPage
+        });
+    }
+    else {
+        res.send("You are not authorized to access this page.");
+    }
+});
+
+//Logout / Clear Session
+app.get("/logout", (req,res)=>{
+    req.session.user = null;
+    res.redirect("/");
 });
 
 //Login form validation
@@ -112,17 +155,44 @@ app.post("/login", (req,res) =>{
         req.session.errors = errors;
         
         //redirect to page where form was filled from
-        if(onPage == 'index')
-            res.redirect("/");
-        else if(onPage == 'on-the-menu')
-            res.redirect("/on-the-menu");
-        else
-            res.redirect("/");
+        errorRedirect(res, onPage);
     }
     else {
         //no errors found
-        //redirect to dashboard!
-        res.redirect("/dashboard");
+        //lets check collection for user login info
+        let userInfo = {};
+
+        userModel.findOne({
+            email: email
+        }).then((user) => {
+            //user found
+            if(user == null){
+                errors.login = true;
+                errors.user_not_found = true;
+                errors.data = req.body;
+                req.session.errors = errors;
+                errorRedirect(res, onPage);
+            }
+            else{
+                bcrypt.compare(password, user.password).then((matched) => {
+                    if(matched){
+                        userInfo.loggedIn = true;
+                        userInfo.fName = user.firstName;
+                        userInfo.lName = user.lastName;
+
+                        req.session.user = userInfo;
+                        res.redirect("/dashboard");
+                    }
+                    else {
+                        errors.login = true;
+                        errors.pw_no_match = true;
+                        errors.data = req.body;
+                        req.session.errors = errors;
+                        errorRedirect(res, onPage);
+                    }
+                });
+            }
+        })
     }
 
 });
@@ -157,6 +227,17 @@ app.post("/register", (req,res) =>{
             errors.email_length = true;
             errors.found++;
         }
+        else {
+            userModel.findOne({
+                email: email
+            }).then((user) => {
+                //user found
+                if(user != null){
+                    errors.user_exists = true;
+                    errors.found++;
+                }
+            });
+        }
     }
 
     //password null check
@@ -190,15 +271,25 @@ app.post("/register", (req,res) =>{
         req.session.errors = errors;
         
         //redirect to page where form was filled from
-        if(onPage == 'index')
-            res.redirect("/");
-        else if(onPage == 'on-the-menu')
-            res.redirect("/on-the-menu")
-        else 
-            res.redirect("/");
+        errorRedirect(res, onPage);
     }
     else {
         //no errors, register valid!
+
+        //lets register user in our database
+        const user = new userModel({
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            password: password
+        });
+
+        user.save().then(()=>{
+            console.log("New user registered.");
+        }).catch((err)=>{
+            console.log("Error registering user: "+err);
+        });
+
 
         //send email
         const sendgridMail = require("@sendgrid/mail");

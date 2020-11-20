@@ -1,8 +1,15 @@
 # Meal-Kit-Website
-Web322 - Assignment 1-5 (currently on #2)
+Web322 - Assignment 1-5 (currently on #3)
 
 Deployed to Heroku:
 view @ https://easychef-ai.herokuapp.com
+
+20-NOV-2020
+---
+ - user registration
+ - clerk / regular user dashboard pages
+ - meal cards styled
+ 
 
 28-OCT-2020
 ---

@@ -134,7 +134,11 @@ app.get("/dashboard", (req,res) => {
         });
     }
     else {
-        res.send("You are not authorized to access this page.");
+        let errors = {};
+        errors.login = true;
+        errors.unauthorized = true;
+        req.session.errors = errors;
+        errorRedirect(res, 'index');
     }
 });
 

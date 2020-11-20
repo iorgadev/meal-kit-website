@@ -82,7 +82,7 @@ app.get("/", (req,res) => {
     let errors = req.session.errors;
     //let user = req.session.user;
     res.render('index', {
-        title: 'EasyChef Meal Kits - WEB322 Assignment 2',
+        title: 'EasyChef Meal Kits - WEB322 Assignment 3',
         meal: meals,
         user: req.session.user,
         onPage: 'index',

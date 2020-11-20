@@ -384,6 +384,13 @@ img {vertical-align: middle;}
     font-family: 'Raleway', sans-serif;
     position: relative;
     left:10px;
+    font-weight: bold;
+}
+.card .title img {
+    width:20px;
+    margin-right:5px;
+    position:relative;
+    top:3px;
 }
 .card p {
     padding-left:15px;
@@ -405,6 +412,10 @@ img {vertical-align: middle;}
     padding:3px;
     border-radius: 5px;
     font-family: 'Raleway', sans-serif;
+}
+.card .tags li:first-child {
+    background-color: initial;
+    font-weight: bold;
 }
 .stats {
     vertical-align: middle;
@@ -495,6 +506,21 @@ img {vertical-align: middle;}
     padding:40px 20px 40px;
     box-sizing: border-box;
     background-color:var(--page-color);
+}
+.clerk-btn {
+    margin:0 auto;
+    padding:20px;
+    font-size:2rem;
+    text-transform: uppercase;
+    display:block;
+    width:100%;
+    margin-top:10px;
+}
+.clerk-btn.logout {
+    background-color:#ececec;
+}
+.clerk-btn.logout a {
+    text-decoration: none;
 }
 
 
@@ -1106,6 +1132,11 @@ input {
     }
 
 
+    /* dashboard */
+    .clerk-btn {
+        width:50%;
+    }
+
     /* footer */
     .easychef {
         background-color:var(--primary-color);
@@ -1353,9 +1384,19 @@ input {
         line-height: 8rem;
     }
 
-
+    .card .tags li {
+        font-size:1.5rem;
+        padding:3px 5px 3px 5px;
+    }
     .card .title {
         font-size:2rem;
+    }
+    .card .title img {
+        width:32px;
+        top:2px;
+    }
+    .card .stats .text {
+        font-size:1rem;
     }
 
     .easychef h4 {

@@ -1,15 +1,13 @@
 <div class="card">
     <div class="meal">
-        {{!-- <span class="price">${{price}}</span> --}}
         <img src="../images/meals/{{image}}" alt="{{title}} meal">
-        <span class="title">{{title}}</span>
-        {{!-- <p>{{included}}</p> --}}
+        <span class="title"><img src="../images/icons/card/{{type}}.png">{{title}}</span>
 
         <ul class="tags">
+            <li>Receipe List:</li>
         {{#each included}}
             <li>{{this}}</li>
         {{/each}}
-            <li class="">${{price}}/meal</li>
         </ul>
     </div>
 

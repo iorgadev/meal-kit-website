@@ -57,6 +57,8 @@ mongoose.connect(process.env.MONGO_DB_CONN, {
 const userModel = require("./models/user");
 const { userInfo } = require("os");
 const { nextTick } = require("process");
+//create intial clerk account
+const clerkModel = require("./models/clerk");
 
 
 
@@ -116,10 +118,16 @@ app.get("/on-the-menu", (req,res) => {
 //Dashboard Page
 app.get("/dashboard", (req,res) => {
     onPage = 'dashboard';
+    dashboardPage = "dashboard";
 
     //if not logged in
     if(req.session.user){
-        res.render('dashboard', {
+        //check if user is a clerk
+        if(req.session.user.clerk){
+            dashboardPage = "clerk-dashboard";
+        }
+
+        res.render(dashboardPage, {
             title: 'Account Dashboard - EasyChef Meal Kit',
             user: req.session.user,
             onPage
@@ -183,11 +191,17 @@ app.post("/login", (req,res) =>{
             else{
                 bcrypt.compare(password, user.password).then((matched) => {
                     if(matched){
-                        userInfo.loggedIn = true;
-                        userInfo.fName = user.firstName;
-                        userInfo.lName = user.lastName;
-                        req.session.user = userInfo;
-                        res.redirect("/dashboard");
+                        clerkModel.findOne({email: email}).then(e => {
+                            userInfo.loggedIn = true;
+                            userInfo.fName = user.firstName;
+                            userInfo.lName = user.lastName;
+
+                            //check if user is clerk
+                            userInfo.clerk = (e!=null);
+
+                            req.session.user = userInfo;
+                            res.redirect("/dashboard");
+                        });
                     }
                     else {
                         errors.login = true;
@@ -279,7 +293,8 @@ app.post("/register", (req,res) =>{
             firstName: firstName,
             lastName: lastName,
             email: email,
-            password: password
+            password: password,
+            dateRegistered: Date.now()
         });
 
         let userInfo = {};
@@ -290,7 +305,6 @@ app.post("/register", (req,res) =>{
         }).exec().then((userFound) => {
             //user found
             if(userFound != null){
-                console.log("USER FOUND!");
                 errors.found++;
                 errors.register = true;
                 errors.user_exists = true;
@@ -308,7 +322,7 @@ app.post("/register", (req,res) =>{
                     userInfo.lName = user.lastName;
                     req.session.user = userInfo;
 
-                            //send email
+                    //send email
                     const sendgridMail = require("@sendgrid/mail");
                     sendgridMail.setApiKey(process.env.SENDGRID_API_KEY);
 

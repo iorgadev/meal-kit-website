@@ -282,132 +282,74 @@ app.post("/register", (req,res) =>{
             password: password
         });
 
-            // if(!findUser(email)){
-            //     user.save().then(()=>{
-            //         console.log("New user registered.");
-            //         let userInfo = {};
-            //         userInfo.loggedIn = true;
-            //         userInfo.fName = user.firstName;
-            //         userInfo.lName = user.lastName;
-            //         req.session.user = userInfo;
-            //     }).catch((err)=>{
-            //         console.log("Error registering user: "+err);
-            //     });
-            // }
+        let userInfo = {};
 
-            let userInfo = {};
+        let errors = {};
+        userModel.findOne({
+            email: req.body.email
+        }).exec().then((userFound) => {
+            //user found
+            if(userFound != null){
+                console.log("USER FOUND!");
+                errors.found++;
+                errors.register = true;
+                errors.user_exists = true;
+                errors.data = req.body;
+                req.session.errors = errors;
+                errorRedirect(res, onPage);
+                return;
+            }
+            else{
+                user.save().then(()=>{
+                    console.log("New user registered.");
+                    let userInfo = {};
+                    userInfo.loggedIn = true;
+                    userInfo.fName = user.firstName;
+                    userInfo.lName = user.lastName;
+                    req.session.user = userInfo;
 
-            let errors = {};
-            userModel.findOne({
-                email: req.body.email
-            }).exec().then((userFound) => {
-                //user found
-                if(userFound != null){
-                    console.log("USER FOUND!");
-                    errors.found++;
-                    errors.register = true;
-                    errors.user_exists = true;
-                    errors.data = req.body;
-                    req.session.errors = errors;
-                    errorRedirect(res, onPage);
-                    return;
-                }
-                else{
-                    user.save().then(()=>{
-                        console.log("New user registered.");
-                        let userInfo = {};
-                        userInfo.loggedIn = true;
-                        userInfo.fName = user.firstName;
-                        userInfo.lName = user.lastName;
-                        req.session.user = userInfo;
+                            //send email
+                    const sendgridMail = require("@sendgrid/mail");
+                    sendgridMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-                                //send email
-                        const sendgridMail = require("@sendgrid/mail");
-                        sendgridMail.setApiKey(process.env.SENDGRID_API_KEY);
+                    const msg = {
+                        to: email,
+                        from: 'aiorga@myseneca.ca',
+                        subject: 'Welcome to EasyChef',
+                        html:
+                            `
+                            You're erady to be a chef, ${firstName} ${lastName}! <br>
+                            Select a meal kit plan from our dashboard page and enjoy cooking like a real chef!
+                            `
+                    };
 
-                        const msg = {
-                            to: email,
-                            from: 'aiorga@myseneca.ca',
-                            subject: 'Welcome to EasyChef',
-                            html:
-                                `
-                                You're erady to be a chef, ${firstName} ${lastName}! <br>
-                                Select a meal kit plan from our dashboard page and enjoy cooking like a real chef!
-                                `
-                        };
-
-                        sendgridMail.send(msg)
-                        .then(() => {
-                            res.redirect("/dashboard");
-                            console.log("New user emailed.");
-                        })
-                        .catch(err => {
-                            console.error(`Error sending email: ${err}`);
-                            //IF the above email validation passes, but the email is truly NOT valid
-                            //the site will hang and throw an error in the background
-                            //this is to deal with that error
-                            if(err.code == 400){
-                                errors.register = true;
-                                errors.data = req.body;
-                                errors.email_invalid = true;
-                                req.session.errors = errors;
-                                errorRedirect(res, onPage);
-                            }
-                        });
-
-
-                    }).catch((err)=>{
-                        console.log("Error registering user: "+err);
+                    sendgridMail.send(msg)
+                    .then(() => {
+                        res.redirect("/dashboard");
+                        console.log("New user emailed.");
+                    })
+                    .catch(err => {
+                        console.error(`Error sending email: ${err}`);
+                        //IF the above email validation passes, but the email is truly NOT valid
+                        //the site will hang and throw an error in the background
+                        //this is to deal with that error
+                        if(err.code == 400){
+                            errors.register = true;
+                            errors.data = req.body;
+                            errors.email_invalid = true;
+                            req.session.errors = errors;
+                            errorRedirect(res, onPage);
+                        }
                     });
-                }
-            }).catch((err) => {
-                console.log("ERROR: registering - " + err);
-            });    
 
 
-        // //send email
-        // const sendgridMail = require("@sendgrid/mail");
-        // sendgridMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-        // const msg = {
-        //     to: email,
-        //     from: 'aiorga@myseneca.ca',
-        //     subject: 'Welcome to EasyChef',
-        //     html:
-        //         `
-        //         You're erady to be a chef, ${firstName} ${lastName}! <br>
-        //         Select a meal kit plan from our dashboard page and enjoy cooking like a real chef!
-        //         `
-        // };
-
-        // sendgridMail.send(msg)
-        // .then(() => {
-        //     res.redirect("/dashboard");
-        //     console.log("New user emailed.");
-        // })
-        // .catch(err => {
-        //     console.error(`Error sending email: ${err}`);
-        //     //IF the above email validation passes, but the email is truly NOT valid
-        //     //the site will hang and throw an error in the background
-        //     //this is to deal with that error
-        //     if(err.code == 400){
-        //         errors.register = true;
-        //         errors.data = req.body;
-        //         errors.email_invalid = true;
-        //         req.session.errors = errors;
-        //         errorRedirect(res, onPage);
-        //     }
-        // });
-
-        //if no errors to this point, redirect user to dashboard
-        // if(errors.found == 0){
-        //     res.redirect("/dashboard");
-        // }
-        // else{
-        //     console.log("ERROR REDIRECT: "+errors.found);
-        //     //req.session.errors = errors;
-        //     errorRedirect(res, onPage);
-        // }
+                }).catch((err)=>{
+                    console.log("Error registering user: "+err);
+                });
+            }
+        }).catch((err) => {
+            console.log("ERROR: registering - " + err);
+        });    
     }
 });
 

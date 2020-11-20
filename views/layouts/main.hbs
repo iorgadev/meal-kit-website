@@ -88,7 +88,10 @@
                 {{/if}}   
                 {{#if errors.email_invalid }}
                 <span class="form_error">Email entered is Invalid.</span>
-                {{/if}}                                
+                {{/if}}  
+                {{#if errors.user_exists }}
+                <span class="form_error">This user already exists.</span>
+                {{/if}}                                                
             {{/if}}
 
             <input {{#if errors.register}}{{#if errors.password}}class="input_error" {{/if}}{{/if}}type="password" name="password" value="{{#if errors.register}}{{errors.data.password}}{{/if}}" placeholder="Password">

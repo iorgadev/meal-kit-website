@@ -10,13 +10,14 @@ const path = require("path");
 const express = require("express");
 const session = require('express-session');
 const hbs = require('express-handlebars');
-const app = express();
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 dotenv.config({path:"./config/keys.env"});
 const port = process.env.PORT || 8080;
 
 const bcrypt = require("bcryptjs");
+
+const app = express();
 
 //static meals data module file
 const meals = require(__dirname + '/meals.js');
@@ -54,29 +55,34 @@ mongoose.connect(process.env.MONGO_DB_CONN, {
 });
 
 const userModel = require("./models/user");
+const { userInfo } = require("os");
+const { nextTick } = require("process");
 
 
 
 //Routes
 let onPage = '';
 
-let errorRedirect = (res, page) => {
 //redirect to page where form was filled from
-if(page == 'index')
-    res.redirect("/");
-else if(page == 'on-the-menu')
-    res.redirect("/on-the-menu");
-else
-    res.redirect("/");
+let errorRedirect = (res, page) => {
+    if(page == 'index')
+        res.redirect("/");
+    else if(page == 'on-the-menu')
+        res.redirect("/on-the-menu");
+    else
+        res.redirect("/");
+    return;
 }
 
 //Main Page
 app.get("/", (req,res) => {
     onPage = 'index';
     let errors = req.session.errors;
+    //let user = req.session.user;
     res.render('index', {
         title: 'EasyChef Meal Kits - WEB322 Assignment 2',
         meal: meals,
+        user: req.session.user,
         onPage: 'index',
         errors
     });
@@ -100,6 +106,7 @@ app.get("/on-the-menu", (req,res) => {
     res.render('on-the-menu', {
         title: 'On The Menu - EasyChef Meal Kit',
         category,
+        user: req.session.user,
         onPage,
         errors
     });
@@ -114,7 +121,7 @@ app.get("/dashboard", (req,res) => {
     if(req.session.user){
         res.render('dashboard', {
             title: 'Account Dashboard - EasyChef Meal Kit',
-            userInfo: req.session.user,
+            user: req.session.user,
             onPage
         });
     }
@@ -125,7 +132,7 @@ app.get("/dashboard", (req,res) => {
 
 //Logout / Clear Session
 app.get("/logout", (req,res)=>{
-    req.session.user = null;
+    req.session.destroy();
     res.redirect("/");
 });
 
@@ -179,7 +186,6 @@ app.post("/login", (req,res) =>{
                         userInfo.loggedIn = true;
                         userInfo.fName = user.firstName;
                         userInfo.lName = user.lastName;
-
                         req.session.user = userInfo;
                         res.redirect("/dashboard");
                     }
@@ -192,7 +198,9 @@ app.post("/login", (req,res) =>{
                     }
                 });
             }
-        })
+        }).catch((err) => {
+            console.log("Error logging in.");
+        });
     }
 
 });
@@ -200,6 +208,7 @@ app.post("/login", (req,res) =>{
 
 //Register form validation
 app.post("/register", (req,res) =>{
+    //req.session.destroy();
     let { firstName, lastName, email, password, on_page: onPage } = req.body;
     let errors = {};
     errors.found = 0;
@@ -226,17 +235,6 @@ app.post("/register", (req,res) =>{
         if(email.length < 6){
             errors.email_length = true;
             errors.found++;
-        }
-        else {
-            userModel.findOne({
-                email: email
-            }).then((user) => {
-                //user found
-                if(user != null){
-                    errors.user_exists = true;
-                    errors.found++;
-                }
-            });
         }
     }
 
@@ -284,45 +282,132 @@ app.post("/register", (req,res) =>{
             password: password
         });
 
-        user.save().then(()=>{
-            console.log("New user registered.");
-        }).catch((err)=>{
-            console.log("Error registering user: "+err);
-        });
+            // if(!findUser(email)){
+            //     user.save().then(()=>{
+            //         console.log("New user registered.");
+            //         let userInfo = {};
+            //         userInfo.loggedIn = true;
+            //         userInfo.fName = user.firstName;
+            //         userInfo.lName = user.lastName;
+            //         req.session.user = userInfo;
+            //     }).catch((err)=>{
+            //         console.log("Error registering user: "+err);
+            //     });
+            // }
+
+            let userInfo = {};
+
+            let errors = {};
+            userModel.findOne({
+                email: req.body.email
+            }).exec().then((userFound) => {
+                //user found
+                if(userFound != null){
+                    console.log("USER FOUND!");
+                    errors.found++;
+                    errors.register = true;
+                    errors.user_exists = true;
+                    errors.data = req.body;
+                    req.session.errors = errors;
+                    errorRedirect(res, onPage);
+                    return;
+                }
+                else{
+                    user.save().then(()=>{
+                        console.log("New user registered.");
+                        let userInfo = {};
+                        userInfo.loggedIn = true;
+                        userInfo.fName = user.firstName;
+                        userInfo.lName = user.lastName;
+                        req.session.user = userInfo;
+
+                                //send email
+                        const sendgridMail = require("@sendgrid/mail");
+                        sendgridMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+                        const msg = {
+                            to: email,
+                            from: 'aiorga@myseneca.ca',
+                            subject: 'Welcome to EasyChef',
+                            html:
+                                `
+                                You're erady to be a chef, ${firstName} ${lastName}! <br>
+                                Select a meal kit plan from our dashboard page and enjoy cooking like a real chef!
+                                `
+                        };
+
+                        sendgridMail.send(msg)
+                        .then(() => {
+                            res.redirect("/dashboard");
+                            console.log("New user emailed.");
+                        })
+                        .catch(err => {
+                            console.error(`Error sending email: ${err}`);
+                            //IF the above email validation passes, but the email is truly NOT valid
+                            //the site will hang and throw an error in the background
+                            //this is to deal with that error
+                            if(err.code == 400){
+                                errors.register = true;
+                                errors.data = req.body;
+                                errors.email_invalid = true;
+                                req.session.errors = errors;
+                                errorRedirect(res, onPage);
+                            }
+                        });
 
 
-        //send email
-        const sendgridMail = require("@sendgrid/mail");
-        sendgridMail.setApiKey(process.env.SENDGRID_API_KEY);
+                    }).catch((err)=>{
+                        console.log("Error registering user: "+err);
+                    });
+                }
+            }).catch((err) => {
+                console.log("ERROR: registering - " + err);
+            });    
 
-        const msg = {
-            to: email,
-            from: 'aiorga@myseneca.ca',
-            subject: 'Welcome to EasyChef',
-            html:
-                `
-                You're erady to be a chef, ${firstName} ${lastName}! <br>
-                Select a meal kit plan from our dashboard page and enjoy cooking like a real chef!
-                `
-        };
 
-        sendgridMail.send(msg)
-        .then(() => {
-            res.redirect("/dashboard");
-        })
-        .catch(err => {
-            console.error(`Error sending email: ${err}`);
-            //IF the above email validation passes, but the email is truly NOT valid
-            //the site will hang and throw an error in the background
-            //this is to deal with that error
-            if(err.code == 400){
-                errors.register = true;
-                errors.data = req.body;
-                errors.email_invalid = true;
-                req.session.errors = errors;
-                res.redirect("/");
-            }
-        });
+        // //send email
+        // const sendgridMail = require("@sendgrid/mail");
+        // sendgridMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+        // const msg = {
+        //     to: email,
+        //     from: 'aiorga@myseneca.ca',
+        //     subject: 'Welcome to EasyChef',
+        //     html:
+        //         `
+        //         You're erady to be a chef, ${firstName} ${lastName}! <br>
+        //         Select a meal kit plan from our dashboard page and enjoy cooking like a real chef!
+        //         `
+        // };
+
+        // sendgridMail.send(msg)
+        // .then(() => {
+        //     res.redirect("/dashboard");
+        //     console.log("New user emailed.");
+        // })
+        // .catch(err => {
+        //     console.error(`Error sending email: ${err}`);
+        //     //IF the above email validation passes, but the email is truly NOT valid
+        //     //the site will hang and throw an error in the background
+        //     //this is to deal with that error
+        //     if(err.code == 400){
+        //         errors.register = true;
+        //         errors.data = req.body;
+        //         errors.email_invalid = true;
+        //         req.session.errors = errors;
+        //         errorRedirect(res, onPage);
+        //     }
+        // });
+
+        //if no errors to this point, redirect user to dashboard
+        // if(errors.found == 0){
+        //     res.redirect("/dashboard");
+        // }
+        // else{
+        //     console.log("ERROR REDIRECT: "+errors.found);
+        //     //req.session.errors = errors;
+        //     errorRedirect(res, onPage);
+        // }
     }
 });
 

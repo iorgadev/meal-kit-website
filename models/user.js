@@ -1,4 +1,5 @@
 //User Schema
+const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
@@ -24,6 +25,10 @@ const userSchema = new Schema({
         default:Date.now()
     }
 });
+
+userSchema.methods.exists = function(_email) {
+    return this.findOne({email : {$eq : _email}});
+}
 
 userSchema.pre("save", function(next){
     bcrypt.genSalt().then((salt) => {

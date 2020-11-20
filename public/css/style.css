@@ -236,6 +236,10 @@ img {vertical-align: middle;}
     color:var(--page-color);
 }
 
+#hero-small .dashboard {
+    text-transform: uppercase;
+}
+
 
 /* our process  */
 #process {

@@ -336,7 +336,7 @@ app.post("/register", (req,res) =>{
                         subject: 'Welcome to EasyChef',
                         html:
                             `
-                            You're erady to be a chef, ${firstName} ${lastName}! <br>
+                            You're ready to be a chef, ${firstName} ${lastName}! <br>
                             Select a meal kit plan from our dashboard page and enjoy cooking like a real chef!
                             `
                     };

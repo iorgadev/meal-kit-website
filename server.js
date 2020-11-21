@@ -195,7 +195,7 @@ app.post("/login", (req,res) =>{
             else{
                 bcrypt.compare(password, user.password).then((matched) => {
                     if(matched){
-                        clerkModel.findOne({email: email}).then(e => {
+                        clerkModel.findOne({userId: user._id}).then(e => {
                             userInfo.loggedIn = true;
                             userInfo.fName = user.firstName;
                             userInfo.lName = user.lastName;

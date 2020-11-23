@@ -386,6 +386,7 @@ img {vertical-align: middle;}
     position: relative;
     left:10px;
     font-weight: bold;
+    color:var(--dark-text-color);
 }
 .card .title img {
     width:20px;

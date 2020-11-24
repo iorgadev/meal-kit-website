@@ -1,4 +1,4 @@
-//User Schema
+//Clerk Schema
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema, ObjectId = Schema.ObjectId;

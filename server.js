@@ -59,6 +59,8 @@ const { userInfo } = require("os");
 const { nextTick } = require("process");
 //create intial clerk account
 const clerkModel = require("./models/clerk");
+const mealModel = require("./models/meal");
+
 
 
 
@@ -119,19 +121,28 @@ app.get("/on-the-menu", (req,res) => {
 app.get("/dashboard", (req,res) => {
     onPage = 'dashboard';
     dashboardPage = "dashboard";
+    let mealKits = {};
 
     //if not logged in
     if(req.session.user){
         //check if user is a clerk
         if(req.session.user.clerk){
-            dashboardPage = "clerk-dashboard";
+            mealModel.find({}).lean().exec({}, (err, allMeals) => {
+                res.render('clerk-dashboard', {
+                    title: 'Clerk Dashboard - EasyChef Meal Kit',
+                    user: req.session.user,
+                    meals: allMeals,
+                    onPage
+                });
+            });
         }
-
-        res.render(dashboardPage, {
-            title: 'Account Dashboard - EasyChef Meal Kit',
-            user: req.session.user,
-            onPage
-        });
+        else {
+            res.render('dashboard', {
+                title: 'Account Dashboard - EasyChef Meal Kit',
+                user: req.session.user,
+                onPage
+            });
+        }
     }
     else {
         let errors = {};

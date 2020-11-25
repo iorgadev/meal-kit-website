@@ -315,12 +315,28 @@ app.post("/dashboard/deleteMeal", isClerk, (req, res) => {
     let { meal_id } = req.body;
     mealModel.findById(meal_id).then(result => {
         if(result != null){
-            console.log("we should delete meal: "+meal_id)
-            console.log("picture file: "+result.image);
-            res.json({message: 'meal deleted'});
+            //delete meal image
+            fs.unlinkSync(`public/images/meals/${result.image}`);
+
+            //attempting to use async function.. it works!
+            async function deleteMeal(){
+                try{
+                    const result = await mealModel.deleteOne({_id: meal_id});
+
+                    if(result.deletedCount === 1){
+                        res.json({success: 'deleted'});
+                    }
+                    else {
+                        res.json({error: '0'});
+                    }
+                }catch {
+                    res.json({error: '0'});
+                }
+            }
+            deleteMeal().catch(err=>{res.json({error: 'error deleting meal'})});
         }
         else {
-            console.log("meal not found");
+            res.json({error: 'unable to delete'});
         }
     }).catch(err=>{res.send("ERROR: Could not delete meal.")});
 });

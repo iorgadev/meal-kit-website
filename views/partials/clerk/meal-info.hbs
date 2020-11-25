@@ -4,7 +4,7 @@
         <h2>UPDATE MEALS</h2>
 
         {{#each meals}}
-        <div class="col-12 meal-list edit_meal_link" onclick="openMealInfo('{{_id}}')">
+        <div id="{{_id}}-list" class="col-12 meal-list edit_meal_link" onclick="openMealInfo('{{_id}}')">
             <div class="col-1"><img class="img-responsive" src="../images/meals/{{image}}"></div>
             <div class="col-11 ml_title">
                 <a href="#">{{title}}</a> 
@@ -65,24 +65,10 @@
                     <img class="img-responsive" src="../images/meals/{{image}}">
                     <input type="file" name="image" value="">
 
-                    <input type="submit" value="UPDATE MEAL KIT">
+                    <input class="mi-submit" type="submit" value="UPDATE MEAL KIT" style="margin-top:10px;padding:10px 0px 10px 0px;font-size:1.5rem;border:2px solid #084062;background-color: #23a9d2;color:#ffffff;">
                 </div>
             </form>
         </div>
         {{/each}}
     </div>
 </div>
-
-{{!-- 
-
-Title: 
-
-Description: 
-
-Included (comma delimited): 
-
-Image: 
-
-Price   Time    Servings    Calories    Type    Category    Top
-
- --}}

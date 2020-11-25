@@ -36,7 +36,11 @@ function deleteMeal(meal_id){
         })
         .then(response => response.json())
         .then(result => {
-            console.log('Success: ', result.message);
+            if(result.success == 'deleted'){
+                let mealList = document.getElementById(meal_id+'-list');
+                mealList.style.display = "none";
+                meal.style.display = "none";
+            }
         })
         .catch(err => {
             console.log("Error deleting");

@@ -45,13 +45,19 @@
 .meal-info input,textarea,select {
     margin-bottom:10px;
     width:100%;
-    border:1px solid var(--light-text-color);
+    border:1px solid var(--primary-color);
 }
 .mi-icon {
     width:24px;
     position: relative;
     top:-2px;
     margin-right:4px;
+}
+.data-stats.mi-submit {
+    padding:20px;
+    border:2px solid #098127;
+    background-color: #01440f;
+    color:#ffffff;
 }
 
 
@@ -75,10 +81,28 @@
     position: relative;
     top:5px;
     text-decoration: none;
+    color:var(--dark-text-color);
 }
 .ml-icon {
     position: relative;
     float:right;
     margin-right:20px;
     width:48px
+}
+
+
+
+/* fading in and out list elements, help from: https://jsfiddle.net/cferdinandi/qgpxvhhb/23/ */
+.toggle-list {
+	display: none;
+	height: 0;
+  	opacity: 0;
+	overflow: hidden;
+	transition: height 350ms ease-in-out, opacity 750ms ease-in-out;
+}
+
+.toggle-list.is-visible {
+	display: block;
+	height: auto;
+  	opacity: 1;
 }

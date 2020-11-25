@@ -55,6 +55,8 @@ const mealSchema = new Schema({
 
 const mealModel = mongoose.model("meals", mealSchema);
 
+const meals = require('../meals');
+
 //Add Default Meals to our MEALS collection
 //Using the meals.js we used in previous assignments
 mealModel.find({}).countDocuments({}, (err, count) => {

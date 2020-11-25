@@ -11,6 +11,7 @@ const express = require("express");
 const session = require('express-session');
 const hbs = require('express-handlebars');
 const bodyParser = require('body-parser');
+const fileUpload = require('express-fileUpload');
 const dotenv = require('dotenv');
 dotenv.config({path:"./config/keys.env"});
 const port = process.env.PORT || 8080;
@@ -20,7 +21,7 @@ const bcrypt = require("bcryptjs");
 const app = express();
 
 //static meals data module file
-const meals = require(__dirname + '/meals.js');
+// const meals = require(__dirname + '/meals.js');
 
 //serve static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -34,9 +35,10 @@ app.engine('hbs', hbs({
 }));
 app.set('view engine', 'hbs');
 
-//body-parser
+//body-parser + fileupload
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(fileUpload());
 
 //sessions - error keeping for now
 app.use(session({secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true}));
@@ -47,7 +49,8 @@ var mongoose = require("mongoose");
 mongoose.connect(process.env.MONGO_DB_CONN, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true
+    useCreateIndex: true,
+    useFindAndModify: false
 }).then(() => {
     console.log("MongoDB connection established.");
 }).catch((err) => {
@@ -81,17 +84,26 @@ let errorRedirect = (res, page) => {
 //Main Page
 app.get("/", (req,res) => {
     onPage = 'index';
-    let errors = req.session.errors;
-    //let user = req.session.user;
-    res.render('index', {
-        title: 'EasyChef Meal Kits - WEB322 Assignment 3',
-        meal: meals,
-        user: req.session.user,
-        onPage: 'index',
-        errors
-    });
-    req.session.errors = null;
-});
+
+    mealModel.find({top: true}).lean().then(allMeals => {
+
+            allMeals.forEach(m => {
+                m.included = m.included.split(",").map(function(item) {
+                    return item.trim();
+                });
+            })
+
+            let errors = req.session.errors;
+            res.render('index', {
+                title: 'EasyChef Meal Kits - WEB322 Assignment 3',
+                meal: allMeals,
+                user: req.session.user,
+                onPage: 'index',
+                errors
+            });
+            req.session.errors = null;
+    })
+}); 
 
 //On The Menu Page
 app.get("/on-the-menu", (req,res) => {
@@ -103,18 +115,39 @@ app.get("/on-the-menu", (req,res) => {
             return group;
         }, {});
     };
-    const category = groupBy(meals, 'category');   
+
+    mealModel.find().lean().then(allMeals => {
+        allMeals.forEach(m => {
+            m.included = m.included.split(",").map(function(item) {
+                return item.trim();
+            });
+        });
+        const category = groupBy(allMeals, 'category');
+
+        onPage = 'on-the-menu';
+        let errors = req.session.errors;
+        res.render('on-the-menu', {
+            title: 'On The Menu - EasyChef Meal Kit',
+            category,
+            user: req.session.user,
+            onPage,
+            errors
+        });
+        req.session.errors = null;
+    })
+
+    // const category = groupBy(meals, 'category');   
      
-    onPage = 'on-the-menu';
-    let errors = req.session.errors;
-    res.render('on-the-menu', {
-        title: 'On The Menu - EasyChef Meal Kit',
-        category,
-        user: req.session.user,
-        onPage,
-        errors
-    });
-    req.session.errors = null;
+    // onPage = 'on-the-menu';
+    // let errors = req.session.errors;
+    // res.render('on-the-menu', {
+    //     title: 'On The Menu - EasyChef Meal Kit',
+    //     category,
+    //     user: req.session.user,
+    //     onPage,
+    //     errors
+    // });
+    // req.session.errors = null;
 });
 
 //Dashboard Page
@@ -128,6 +161,17 @@ app.get("/dashboard", (req,res) => {
         //check if user is a clerk
         if(req.session.user.clerk){
             mealModel.find({}).lean().exec({}, (err, allMeals) => {
+
+                //capitalize meal type
+                allMeals.forEach(e => {
+                    e.type = e.type.charAt(0).toUpperCase() + e.type.slice(1);
+                });
+
+                //capitalize meal category
+                allMeals.forEach(e => {
+                    e.category = e.category.charAt(0).toUpperCase() + e.category.slice(1);
+                });
+
                 res.render('clerk-dashboard', {
                     title: 'Clerk Dashboard - EasyChef Meal Kit',
                     user: req.session.user,
@@ -152,6 +196,91 @@ app.get("/dashboard", (req,res) => {
         errorRedirect(res, 'index');
     }
 });
+
+// authenticate clerk for meal adding, editing, etc
+function isClerk(req, res, next) {
+    if (req.session.user){
+        if(req.session.user.clerk == true)
+            return next();
+    }
+
+    let errors = {};
+    errors.login = true;
+    errors.no_permission = true;
+    req.session.errors = errors;
+    errorRedirect(res, 'index');
+}
+
+//editMeal
+app.post("/dashboard/editMeal/", isClerk, (req,res)=>{
+    let {meal_id, title, description, included, cookingTime, servings, price, calories, category, type, top} = req.body;
+    
+    cookingTime = (cookingTime > 0) ? cookingTime : 0;
+    servings = (servings > 0) ? servings : 0;
+    price = (price > 0) ? price : 0;
+    calories = (calories > 0) ? calories : 0;
+
+    mealModel.findById(meal_id).then(result => {
+        if(result != null){
+
+            top = (top == 1) ? true:false;
+
+            mealModel.findByIdAndUpdate({_id: meal_id}, {
+                title: title,
+                description: description,
+                included: included,
+                cookingTime: cookingTime,
+                servings: servings,
+                price: price,
+                calories: calories,
+                category: category,
+                type: type,
+                top: top
+            }, (err, result) => {
+                if(err) {
+                    res.send(err);
+                }
+                else {
+                    //is the image being changed?
+                    if(req.files){
+                        let extension = path.extname(req.files.image.name);
+                        if(extension == '.jpg' || extension == '.png' || extension == '.gif'){
+                            console.log('files to be uploaded: '+ extension);
+                            res.redirect('/dashboard');
+                        }
+                        else{
+                            res.send('error, invalid image type');
+                        }
+                    }
+                    else {
+                        res.redirect('/dashboard');
+                    }
+                }
+            });
+
+        }
+        else {
+            res.redirect('/dashboard');
+        }
+    }).catch(err=> {
+        console.log("Error fetching meal kit into: "+err);
+    })
+})
+
+
+
+
+
+
+
+
+
+/*************************
+ * 
+ * LOGIN + REGISTRATION
+ * 
+*************************/
+
 
 //Logout / Clear Session
 app.get("/logout", (req,res)=>{

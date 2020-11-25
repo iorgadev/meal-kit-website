@@ -12,12 +12,12 @@ module.exports = [
         title: 'Spinach Veggie Spread',
         included: 'all grain toast, spinach, greens, herb spices',
         description: '',
-        category: 'breakfast',
+        category: 'Breakfast',
         price: 11.84,
         cookingTime: 15,
         servings: 2,
         calories: 284,
-        type: "vegan",
+        type: 'Vegan',
         top: true
     },
     {
@@ -26,12 +26,12 @@ module.exports = [
         title: 'Soft Boiled Egg Toast',
         included: 'whole wheat toast, eggs, berries, avocado',
         description: '',
-        category: 'breakfast',
+        category: 'Breakfast',
         price: 9.34,
         cookingTime: 20,
         servings: 2,
         calories: 493,
-        type: "vegan",
+        type: 'Vegan',
         top: true
     },
     {
@@ -40,12 +40,12 @@ module.exports = [
         title: 'Avocado Lime Sandwich',
         included: 'all grain bread, avocado, lime, kale',
         description: '',
-        category: 'breakfast',
+        category: 'Breakfast',
         price: 9.34,
         cookingTime: 10,
         servings: 2,
         calories: 415,
-        type: "vegan",
+        type: 'Vegan',
         top: false
     },
     {
@@ -54,12 +54,12 @@ module.exports = [
         title: 'Crunchy Tomato Wraps',
         included: 'avocado, tomato, spices, tortilla wrap',
         description: '',
-        category: 'breakfast',
+        category: 'Breakfast',
         price: 8.19,
         cookingTime: 12,
         servings: 2,
         calories: 348,
-        type: "vegan",
+        type: 'Vegan',
         top: false
     },
     {
@@ -73,7 +73,7 @@ module.exports = [
         cookingTime: 25,
         servings: 2,
         calories: 688,
-        type: "vegan",
+        type: 'Vegan',
         top: true
     },
     {
@@ -87,7 +87,7 @@ module.exports = [
         cookingTime: 20,
         servings: 2,
         calories: 645,
-        type: "vegan",
+        type: 'Vegan',
         top: true
     },
     {
@@ -101,7 +101,7 @@ module.exports = [
         cookingTime: 30,
         servings: 2,
         calories: 784,
-        type: "meat",
+        type: 'Meat',
         top: false
     },
     {
@@ -115,7 +115,7 @@ module.exports = [
         cookingTime: 30,
         servings: 2,
         calories: 553,
-        type: "vegan",
+        type: 'Vegan',
         top: false
     },
     {
@@ -129,7 +129,7 @@ module.exports = [
         cookingTime: 35,
         servings: 2,
         calories: 486,
-        type: "meat",
+        type: 'Meat',
         top: true
     },
     {
@@ -143,7 +143,7 @@ module.exports = [
         cookingTime: 30,
         servings: 1,
         calories: 745,
-        type: "fish",
+        type: 'Fish',
         top: true
     },
     {
@@ -157,7 +157,7 @@ module.exports = [
         cookingTime: 40,
         servings: 2,
         calories: 845,
-        type: "meat",
+        type: 'Meat',
         top: false
     },
     {
@@ -171,7 +171,7 @@ module.exports = [
         cookingTime: 25,
         servings: 1,
         calories: 248,
-        type: "vegan",
+        type: 'Vegan',
         top: false
     }
 ];

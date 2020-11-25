@@ -13,13 +13,12 @@
 
     <h2>- DASHBOARD -</h2>
     <button class="clerk-btn">Add New Meal</button>
-    <button class="clerk-btn">Update Meals</button>
-    <ul>
-        {{#each meals}}
-        <li>{{this.title}}</li>
-        {{/each}}
-    </ul>
-    <button class="clerk-btn">Add New Category</button>
-    <button class="clerk-btn">Edit Categories</button>
+    <div class="new-meal">
+        {{>clerk/new-meal}}
+    </div>
+
+    
+    {{>clerk/meal-info}}
+
     <button class="clerk-btn logout"><a href="/logout">Logout</a></button>
 </div>

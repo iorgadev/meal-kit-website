@@ -563,7 +563,7 @@ img {vertical-align: middle;}
     margin:0 auto;
     padding:40px 20px 40px;
     box-sizing: border-box;
-    background-color:var(--page-color);
+    background-color:white;
 }
 .clerk-btn {
     margin:0 auto;

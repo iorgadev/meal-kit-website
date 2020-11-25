@@ -4,7 +4,16 @@
         <h2>UPDATE MEALS</h2>
 
         {{#each meals}}
-        <div class="col-12">
+        <div class="col-12 meal-list edit_meal_link" onclick="openMealInfo('{{_id}}')">
+            <div class="col-1"><img class="img-responsive" src="../images/meals/{{image}}"></div>
+            <div class="col-11 ml_title">
+                <a href="#">{{title}}</a> 
+                <a class="delete_meal_link" href="#" onclick="deleteMeal('{{_id}}')"><img class="ml-icon" src="../images/icons/delete.png"></a>
+                <a href="#"><img class="ml-icon" src="../images/icons/edit.png"></a>
+            </div>
+        </div>
+
+        <div id="{{_id}}" class="col-12" style="display:none;">
             <form class="meal-info" method="post" action="/dashboard/editMeal" enctype="multipart/form-data">
                 <div class="col-8 data left">
                     <input type="hidden" name="meal_id" value="{{_id}}">
@@ -18,10 +27,10 @@
                     <input type="text" name="included" value="{{included}}" placeholder="comma,seperated,values">
                     
                     <div class="col-12 data-stats center">
-                        <div class="col-3"><label for="time">Time:</label><input type="text" name="cookingTime" value="{{cookingTime}}"></div>
-                        <div class="col-3"><label for="time">Servings:</label><input type="text" name="servings" value="{{servings}}"></div>
-                        <div class="col-3"><label for="time">Price:</label><input type="text" name="price" value="{{price}}"></div>
-                        <div class="col-3"><label for="time">Calories:</label><input type="text" name="calories" value="{{calories}}"></div>
+                        <div class="col-3"><label for="time"><img class="mi-icon" src="../images/icons/card/time.png">Time:</label><input type="text" name="cookingTime" value="{{cookingTime}}"></div>
+                        <div class="col-3"><label for="servings"><img class="mi-icon" src="../images/icons/card/servings.png">Servings:</label><input type="text" name="servings" value="{{servings}}"></div>
+                        <div class="col-3"><label for="price"><img class="mi-icon" src="../images/icons/card/label.png">Price:</label><input type="text" name="price" value="{{price}}"></div>
+                        <div class="col-3"><label for="calories"><img class="mi-icon" src="../images/icons/card/calories.png">Calories:</label><input type="text" name="calories" value="{{calories}}"></div>
                     </div>
 
                     <div class="col-12 data-stats center">

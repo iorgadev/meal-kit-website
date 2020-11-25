@@ -7,6 +7,7 @@
 
 
 const path = require("path");
+const fs = require('fs')
 const express = require("express");
 const session = require('express-session');
 const hbs = require('express-handlebars');
@@ -85,7 +86,7 @@ let errorRedirect = (res, page) => {
 app.get("/", (req,res) => {
     onPage = 'index';
 
-    mealModel.find({top: true}).lean().then(allMeals => {
+    mealModel.find({top: true}).sort({dateAdded:-1}).lean().then(allMeals => {
 
             allMeals.forEach(m => {
                 m.included = m.included.split(",").map(function(item) {
@@ -108,7 +109,6 @@ app.get("/", (req,res) => {
 //On The Menu Page
 app.get("/on-the-menu", (req,res) => {
     //lets create a grouped array for meals by category
-    //to send to the on-the-menu page
     const groupBy = (data, key) => {
         return data.reduce((group, currentMeal) => {
             (group[currentMeal[key]] = group[currentMeal[key]] || []).push(currentMeal);
@@ -135,19 +135,6 @@ app.get("/on-the-menu", (req,res) => {
         });
         req.session.errors = null;
     })
-
-    // const category = groupBy(meals, 'category');   
-     
-    // onPage = 'on-the-menu';
-    // let errors = req.session.errors;
-    // res.render('on-the-menu', {
-    //     title: 'On The Menu - EasyChef Meal Kit',
-    //     category,
-    //     user: req.session.user,
-    //     onPage,
-    //     errors
-    // });
-    // req.session.errors = null;
 });
 
 //Dashboard Page
@@ -160,7 +147,7 @@ app.get("/dashboard", (req,res) => {
     if(req.session.user){
         //check if user is a clerk
         if(req.session.user.clerk){
-            mealModel.find({}).lean().exec({}, (err, allMeals) => {
+            mealModel.find({}).sort({dateAdded:-1}).lean().exec({}, (err, allMeals) => {
 
                 //capitalize meal type
                 allMeals.forEach(e => {
@@ -220,10 +207,35 @@ app.post("/dashboard/editMeal/", isClerk, (req,res)=>{
     price = (price > 0) ? price : 0;
     calories = (calories > 0) ? calories : 0;
 
+    var newImage = null;
+
+    //is the image being changed?
+    if(req.files){
+        let extension = path.extname(req.files.image.name);
+        if(extension == '.jpg' || extension == '.jpeg' || extension == '.png' || extension == '.gif'){
+            newImage = req.files.image.name;
+        }
+        else{
+            res.send('error, invalid image type');
+        }
+    }
+
     mealModel.findById(meal_id).then(result => {
         if(result != null){
 
             top = (top == 1) ? true:false;
+            let image = null;
+            if(newImage != null){
+                //delete old image
+                fs.unlinkSync(`public/images/meals/${result.image}`);
+                //copy new image
+                req.files.image.mv(`public/images/meals/${req.files.image.name}`);
+
+                image = newImage;
+            }
+            else {
+                image = result.image;
+            }
 
             mealModel.findByIdAndUpdate({_id: meal_id}, {
                 title: title,
@@ -235,26 +247,14 @@ app.post("/dashboard/editMeal/", isClerk, (req,res)=>{
                 calories: calories,
                 category: category,
                 type: type,
-                top: top
+                top: top,
+                image: image
             }, (err, result) => {
                 if(err) {
                     res.send(err);
                 }
                 else {
-                    //is the image being changed?
-                    if(req.files){
-                        let extension = path.extname(req.files.image.name);
-                        if(extension == '.jpg' || extension == '.png' || extension == '.gif'){
-                            console.log('files to be uploaded: '+ extension);
-                            res.redirect('/dashboard');
-                        }
-                        else{
-                            res.send('error, invalid image type');
-                        }
-                    }
-                    else {
-                        res.redirect('/dashboard');
-                    }
+                    res.redirect('/dashboard');
                 }
             });
 
@@ -265,10 +265,65 @@ app.post("/dashboard/editMeal/", isClerk, (req,res)=>{
     }).catch(err=> {
         console.log("Error fetching meal kit into: "+err);
     })
-})
+});
 
+app.post("/dashboard/addMeal", isClerk, (req,res)=>{
+    let {title, description, included, cookingTime, servings, price, calories, category, type, top} = req.body;
+    
+    cookingTime = (cookingTime > 0) ? cookingTime : 0;
+    servings = (servings > 0) ? servings : 0;
+    price = (price > 0) ? price : 0;
+    calories = (calories > 0) ? calories : 0;
 
+    //is the image being changed?
+    if(req.files){
+        let extension = path.extname(req.files.image.name);
+        if(extension == '.jpg' || extension == '.jpeg' || extension == '.png' || extension == '.gif'){
+            
+            req.files.image.mv(`public/images/meals/${req.files.image.name}`);
+            let image = req.files.image.name;
 
+            var newMeal = new mealModel({
+                title: title,
+                description: description,
+                included: included,
+                cookingTime: cookingTime,
+                servings: servings,
+                price: price,
+                calories: calories,
+                category: category,
+                type: type,
+                top: top,
+                image: image
+            });
+
+            newMeal.save().then(meal => {
+                res.redirect('/dashboard');
+            }).catch(err=>{res.send('ERROR: Could not save new meal: '+err)})
+
+        }
+        else{
+            res.send('ERROR: Invalid Image Type ['+extension+']');
+        }
+    }
+    else {
+        res.send('ERROR: No Image Provided');
+    }
+});
+
+app.post("/dashboard/deleteMeal", isClerk, (req, res) => {
+    let { meal_id } = req.body;
+    mealModel.findById(meal_id).then(result => {
+        if(result != null){
+            console.log("we should delete meal: "+meal_id)
+            console.log("picture file: "+result.image);
+            res.json({message: 'meal deleted'});
+        }
+        else {
+            console.log("meal not found");
+        }
+    }).catch(err=>{res.send("ERROR: Could not delete meal.")});
+});
 
 
 

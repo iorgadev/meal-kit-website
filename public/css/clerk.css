@@ -1,8 +1,13 @@
 .meal-info {
     border:0px;
     margin-bottom:30px;
-    background-color: white;
+    background-color:#e4e4e4;
     padding:20px;
+    border:1px solid #c4c4c4;
+    padding:10px;
+}
+.meal-info * {
+    font-family: 'Roboto';
 }
 .meal-info::after { 
     display:table;
@@ -14,7 +19,7 @@
     padding:0 20px 0 0;
 }
 .meal-info .data .data-stats div {
-    padding:15px;
+    padding:15px 5px 15px 5px;
 }
 
 .meal-info input {
@@ -24,24 +29,56 @@
     background-color: #ffffff;
     margin:0;
 }
-
 .meal-info textarea {
     background-color: #ffffff;
 }
-
 .meal-info label {
     font-size:1.25rem;
     text-transform: uppercase;
     line-height: 1.25rem;
+    text-align: center;
 }
-
 .meal-info select {
     background-color:#ffffff;
     font-size:1.25rem;
 }
-
 .meal-info input,textarea,select {
     margin-bottom:10px;
     width:100%;
     border:1px solid var(--light-text-color);
+}
+.mi-icon {
+    width:24px;
+    position: relative;
+    top:-2px;
+    margin-right:4px;
+}
+
+
+.meal-list {
+    padding:5px;
+    min-height:64px;
+    border:1px solid #c4c4c4;
+}
+.meal-list:hover {
+    background-color:#eeeeee;
+}
+
+.ml_title {
+    text-align: left;
+    padding-left:10px;
+    padding-top:10px;
+    vertical-align: middle;
+}
+.ml_title a {
+    font-size:2rem;
+    position: relative;
+    top:5px;
+    text-decoration: none;
+}
+.ml-icon {
+    position: relative;
+    float:right;
+    margin-right:20px;
+    width:48px
 }

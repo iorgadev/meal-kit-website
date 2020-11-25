@@ -49,7 +49,7 @@ const mealSchema = new Schema({
     },
     dateAdded:{
         type:Date,
-        default:Date.now()
+        default:Date.now
     }
 });
 
@@ -64,9 +64,6 @@ mealModel.find({}).countDocuments({}, (err, count) => {
         mealModel.insertMany(meals).then(()=>{
             console.log('Default Meal Kits inserted into meals collection.');
         }).catch(err=>{ console.log('Error adding meals to collection: '+err)});
-    }
-    else {
-        console.log('Meals already loaded.');
     }
 }).catch(err=>{console.log("Unable to query meals collection: "+err)});
 

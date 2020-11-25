@@ -27,11 +27,8 @@ var stickyHeader = () => {
         } 
     }
     if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight-50) {
-        // you're at the bottom of the page
         //header.style.display = "none";
         header.style.transform = "translateY(-100%)";
-
-        console.log("bottom of page");
     }
     else {
         header.style.display = "block";

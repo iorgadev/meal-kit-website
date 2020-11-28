@@ -12,7 +12,7 @@ const express = require("express");
 const session = require('express-session');
 const hbs = require('express-handlebars');
 const bodyParser = require('body-parser');
-const fileUpload = require('express-fileUpload');
+const fileUpload = require('express-fileupload');
 const dotenv = require('dotenv');
 dotenv.config({path:"./config/keys.env"});
 const port = process.env.PORT || 8080;

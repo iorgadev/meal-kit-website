@@ -7,7 +7,7 @@
 
 
 const path = require("path");
-const fs = require('fs')
+const fs = require('fs');
 const express = require("express");
 const session = require('express-session');
 const hbs = require('express-handlebars');
@@ -59,8 +59,8 @@ mongoose.connect(process.env.MONGO_DB_CONN, {
 });
 
 const userModel = require("./models/user");
-const { userInfo } = require("os");
-const { nextTick } = require("process");
+// const { userInfo } = require("os");
+// const { nextTick } = require("process");
 //create intial clerk account
 const clerkModel = require("./models/clerk");
 const mealModel = require("./models/meal");

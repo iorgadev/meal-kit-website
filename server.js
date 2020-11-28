@@ -21,9 +21,6 @@ const bcrypt = require("bcryptjs");
 
 const app = express();
 
-//static meals data module file
-// const meals = require(__dirname + '/meals.js');
-
 //serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -59,8 +56,6 @@ mongoose.connect(process.env.MONGO_DB_CONN, {
 });
 
 const userModel = require("./models/user");
-// const { userInfo } = require("os");
-// const { nextTick } = require("process");
 //create intial clerk account
 const clerkModel = require("./models/clerk");
 const mealModel = require("./models/meal");

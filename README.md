@@ -1,8 +1,15 @@
 # Meal-Kit-Website
-Web322 - Assignment 1-5 (currently on #3)
+Web322 - Assignment 1-5 (currently on #4)
 
 Deployed to Heroku:
 view @ https://easychef-ai.herokuapp.com
+
+28-NOV-2020
+---
+ - meals are pulled from mongodb instead of js object file
+ - clerk can add new meal
+ - clerk can edit meals
+
 
 20-NOV-2020
 ---

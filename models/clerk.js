@@ -18,7 +18,6 @@ const clerkModel = mongoose.model("clerks", clerkSchema);
 aiId = "5fb8052261192517d0140828";
 
 var aiClerk = new clerkModel({
-    // email: "aiorga@myseneca.ca"
     userId: aiId
 });
 

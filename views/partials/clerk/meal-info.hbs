@@ -7,9 +7,10 @@
         <div id="{{_id}}-list" class="col-12 meal-list edit_meal_link" onclick="openMealInfo('{{_id}}')">
             <div class="col-1"><img class="img-responsive" src="../images/meals/{{image}}"></div>
             <div class="col-11 ml_title">
-                <a href="#">{{title}}</a> 
+                <a href="#">{{title}}</a>
                 <a class="delete_meal_link" href="#" onclick="deleteMeal('{{_id}}')"><img class="ml-icon" src="../images/icons/delete.png"></a>
                 <a href="#"><img class="ml-icon" src="../images/icons/edit.png"></a>
+                {{#if top}}<img class="ml-icon" src="../images/icons/star.png">{{/if}}
             </div>
         </div>
 
@@ -53,7 +54,7 @@
                             </select>
                         </div>
                         <div class="col-4">
-                            <label for="top">Top Meal:</label>
+                            <label for="top"><img class="mi-icon" src="../images/icons/star.png">Top Meal:</label>
                             <select name="top">
                                 <option value="1" {{#if top}}selected{{/if}}>True</option>
                                 <option value="0" {{#unless top}}selected{{/unless}}>False</option>

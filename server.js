@@ -179,6 +179,23 @@ app.get("/dashboard", (req,res) => {
     }
 });
 
+//meal page
+app.get("/meal/:slug", (req,res) =>{
+
+    let slug = req.params.slug;
+
+    mealModel.findById({_id: slug}).lean().then(meal => {
+        res.render('meal-page', {
+            meal
+        });
+    }).catch(err => {
+        res.send("Error, 404!");
+    });
+
+
+});
+
+
 // authenticate clerk for meal adding, editing, etc
 function isClerk(req, res, next) {
     if (req.session.user){

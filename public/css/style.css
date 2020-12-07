@@ -585,6 +585,29 @@ img {vertical-align: middle;}
 }
 
 
+/* meal page */
+#meal {
+    margin-top:40px;
+    margin-bottom:40px;
+}
+.meal-page {
+    width:60%;
+    margin:0 auto;
+}
+.meal-page .image {
+    width:50%;
+    display:inline;
+    float:left;
+    box-shadow: 10px 10px 20px -10px rgb(0, 0, 0);
+}
+.meal-page .info {
+    width:50%;
+    display:inline;
+    float:left;
+    padding-left:20px;
+}
+
+
 /* footer */
 #footer {
     background-color:#000000;

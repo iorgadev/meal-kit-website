@@ -186,6 +186,8 @@ app.get("/meal/:slug", (req,res) =>{
 
     mealModel.findById({_id: slug}).lean().then(meal => {
         res.render('meal-page', {
+            title: 'Buy ' +meal.title + ' - EasyChef Meal Kit',
+            user: req.session.user,
             meal
         });
     }).catch(err => {

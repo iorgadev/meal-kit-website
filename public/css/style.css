@@ -591,8 +591,20 @@ img {vertical-align: middle;}
     margin-bottom:40px;
 }
 .meal-page {
-    width:60%;
+    width:75%;
     margin:0 auto;
+}
+.meal-page::after {
+    display:table;
+    content:"";
+    clear: both;
+}
+.other-meals {
+    clear: both;
+    display:block;
+    width:75%;
+    margin:0 auto;
+    margin-top:30px;
 }
 .meal-page .image {
     width:50%;
@@ -606,7 +618,22 @@ img {vertical-align: middle;}
     float:left;
     padding-left:20px;
 }
-
+.meal-page .info .title {
+    background-color: #faf6f5;
+    padding:10px 10px 5px 10px;
+    border:1px solid #fad9d4;
+    border-bottom:0px;
+    color:var(--dark-text-color);
+    text-align: center;
+}
+.meal-page .tags {
+    padding:0;
+    width:100%;
+}
+.meal-page .tags li {
+    display:inline;
+    list-style: none;
+}
 
 /* footer */
 #footer {

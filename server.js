@@ -185,11 +185,27 @@ app.get("/meal/:slug", (req,res) =>{
     let slug = req.params.slug;
 
     mealModel.findById({_id: slug}).lean().then(meal => {
-        res.render('meal-page', {
-            title: 'Buy ' +meal.title + ' - EasyChef Meal Kit',
-            user: req.session.user,
-            meal
+
+        meal.included = meal.included.split(",").map(function(item) {
+            return item.trim();
         });
+
+        mealModel.find({
+            category: meal.category,
+            _id: {$ne: slug}
+        }).lean().then(extraMeals => {
+            extraMeals.forEach(m => {
+                m.included = m.included.split(",").map(function(item) {
+                    return item.trim();
+                });
+            })
+            res.render('meal-page', {
+                title: 'Buy ' +meal.title + ' Meal Kit - EasyChef',
+                user: req.session.user,
+                meal,
+                extraMeals
+            });
+        }).catch(err=>{console.log("Error getting extra meals");})
     }).catch(err => {
         res.send("Error, 404!");
     });

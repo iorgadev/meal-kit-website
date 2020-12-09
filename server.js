@@ -179,6 +179,42 @@ app.get("/dashboard", (req,res) => {
     }
 });
 
+//shoppingCart
+app.get("/cart", (req,res) => {
+    // console.log('test');
+    res.render('shopping-cart', {
+        user: req.session.user,
+        cart: req.session.cart,
+        cartAmount: req.session.cartAmount
+    });
+});
+
+//add-to-cart
+app.post("/add-to-cart/:mealid", (req,res)=>{
+    let meal_id = req.params.mealid;
+    let cart = [];
+    if(req.session.cart === undefined || req.session.cart === null){
+        console.log('cart init');
+    }
+    else {
+        console.log('cart exists');
+        cart = req.session.cart;
+    }
+
+    if(meal_id){
+        cart.push(meal_id);
+    }
+    // var cartAmount = {};
+    // cart.forEach(meal => {cartAmount[meal] = (cartAmount[meal] || 0)+1; });
+    var cartAmount = cart.reduce((map, val) => {map[val] = (map[val] || 0)+1; return map}, {} );
+    req.session.cartAmount = cartAmount;
+
+    req.session.cart = cart;    
+
+    res.json({success: '1'});
+});
+//remove-from-cart
+
 //meal page
 app.get("/meal/:slug", (req,res) =>{
 
@@ -209,8 +245,6 @@ app.get("/meal/:slug", (req,res) =>{
     }).catch(err => {
         res.send("Error, 404!");
     });
-
-
 });
 
 
@@ -297,6 +331,7 @@ app.post("/dashboard/editMeal/", isClerk, (req,res)=>{
     })
 });
 
+//addMeal
 app.post("/dashboard/addMeal", isClerk, (req,res)=>{
     let {title, description, included, cookingTime, servings, price, calories, category, type, top} = req.body;
     
@@ -341,6 +376,7 @@ app.post("/dashboard/addMeal", isClerk, (req,res)=>{
     }
 });
 
+//deleteMeal
 app.post("/dashboard/deleteMeal", isClerk, (req, res) => {
     let { meal_id } = req.body;
     mealModel.findById(meal_id).then(result => {

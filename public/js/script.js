@@ -61,6 +61,33 @@ show_menu.onclick = function() {
 }
 
 
+//addToCart
+function addToCart(meal_id){
+    const formData = new FormData();
+    formData.append('meal_id', meal_id);
+
+    fetch('../add-to-cart/' + meal_id, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(result => {
+        if(result.success == '1'){
+            console.log(meal_id + ' added to cart');
+        }
+    })
+    .catch(err => {
+        console.log("Error adding to cart");
+    });
+}
+function cartLink(meal_id){
+    let add_link = document.getElementById('add-to-cart');
+    add_link.addEventListener("click", function(e){
+        e.preventDefault();
+        addToCart(meal_id);
+    });
+}
+
 //modal settings
 const login = document.getElementById("login");
 const register = document.getElementById("register");

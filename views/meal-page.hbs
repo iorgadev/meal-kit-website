@@ -51,12 +51,16 @@
                 <li>{{this}}</li>
             {{/each}}
             </ul>
+
+            {{#if user.loggedIn}}
+            <a id="add-to-cart" onclick="addToCart('{{meal._id}}');"><button>Add To Cart</button></a>
+            {{/if}}
         </div>   
     </div>
 
     <!-- content | related meals -->
     <div id="top-meals" class="row center">
-        <h2>- Related Meals -</h2>
+        <h2>- Meals You'd Like -</h2>
 
         {{#each extraMeals}}                   
             {{>top-meal}}

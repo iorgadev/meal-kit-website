@@ -635,6 +635,70 @@ img {vertical-align: middle;}
     list-style: none;
 }
 
+#ez-content {
+    margin-top:40px;
+    margin-bottom:40px;
+}
+
+/* shopping cart */
+.cart {
+    width:75%;
+    margin:0 auto;
+}
+.cart-container {
+    width:100%;
+}
+.cart .header {
+    background-color:#dbdbdb;
+}
+.cart .header th {
+    padding:10px 10px 5px 10px;
+    font-size:2rem;
+    text-transform: uppercase;
+    text-align: left;
+
+}
+.cart .header .meal {
+    width:50%;
+}
+.cart .header .quantity {
+    width:20%;
+}
+.cart .header .total {
+    width:20%;
+}
+
+.in-cart .meal-pic {
+    width:20%;
+}
+.in-cart .title, .qty, .cost {
+    font-size:2rem;
+}
+
+.remove-from-cart {
+    font-size:1rem;
+}
+.remove-from-cart img {
+    width:16px;
+}
+.remove-from-cart a {
+    text-decoration: none;
+}
+
+
+.cart .summary {
+    width:30%;
+    float:right;
+    text-align: right;
+    font-size:2rem;
+    background-color:#ece8e7;
+    border:2px solid #a5a5a5;
+    padding:20px;
+    margin-bottom:40px;
+}
+
+
+
 /* footer */
 #footer {
     background-color:#000000;

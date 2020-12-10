@@ -88,6 +88,37 @@ function cartLink(meal_id){
     });
 }
 
+//removeFromCart
+function removeFromCart(meal_id){
+    const formData = new FormData();
+    formData.append('meal_id', meal_id);
+
+    fetch('../remove-from-cart/' + meal_id, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(result => {
+        if(result.success == '1'){
+            console.log(meal_id + ' removed from cart');
+        }
+    })
+    .catch(err => {
+        console.log("Error removing from cart");
+    });
+}
+function removeLink(){
+    let remove_link = document.querySelectorAll(".remove-meal");
+    for(let i = 0;i<remove_link.length;i++){
+        remove_link[i].addEventListener("click", function(e){
+            e.preventDefault();
+            removeFromCart(remove_link[i].id);
+        });
+    }
+}
+removeLink();
+
+
 //modal settings
 const login = document.getElementById("login");
 const register = document.getElementById("register");

@@ -12,7 +12,42 @@
 
     {{#if user.loggedIn}}
     <div class="cart">
-        shopping cart:<br> {{#each cartAmount}}{{@key}} - {{this}}<br>{{/each}}
+        <table class="cart-container">
+            <tr class="header">
+                <th class="meal">Meal</th>
+                <th class="quantity">Quantity</th>
+                <th class="total">Cost</th>
+            </tr>
+
+            {{!-- display each meal in cart --}}
+            {{#each cartMeals}}
+            <tr class="in-cart">
+                <td class="title">
+                    <img class="meal-pic" src="../images/meals/{{image}}"> {{title}}
+                    <span class="remove-from-cart"><a id="{{_id}}" class="remove-meal" href="#" onclick="">( Remove <img src="../images/icons/cancel.png"> )</a></span>
+                </td>
+                <td class="qty center">{{cart_qty}}</td>
+                <td class="cost center">{{cart_sub_total}}</td>
+            </tr>
+            {{/each}}
+        </table>
+
+        <div class="summary">
+            <div>
+                <span class="title">Sub Total: </span>
+                <span class="amount">{{cartMeals.total}}</span>
+            </div>
+            <div>
+                <span class="title">Shipping: </span>
+                <span class="amount">*free*</span>
+            </div>
+            <div>
+                <span class="title">Total: </span>
+                <span class="amount">{{cartMeals.total}}</span>
+            </div>
+
+            <button class="checkout-btn">Place Your Order</button>
+        </div>
     </div>
     {{else}}
     <div class="login">

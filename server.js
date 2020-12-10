@@ -59,6 +59,7 @@ const userModel = require("./models/user");
 //create intial clerk account
 const clerkModel = require("./models/clerk");
 const mealModel = require("./models/meal");
+const e = require("express");
 
 
 
@@ -181,47 +182,81 @@ app.get("/dashboard", (req,res) => {
 
 //shoppingCart
 app.get("/cart", (req,res) => {
-    // console.log('test');
 
-    let userCart = req.session.cartAmount;
-    let meals_list = Object.keys(req.session.cartAmount);
+    if(req.session.cartAmount){
+        let userCart = req.session.cartAmount;
+        let meals_list = Object.keys(req.session.cartAmount);
+        
+        mealModel.find({_id: {$in: meals_list}}).lean().then(meals => {
+            var cart_total = parseFloat(0);
+            meals.forEach(e => {
+                e.cart_qty = parseInt(userCart[e._id]);
+                e.cart_sub_total = parseFloat(e.cart_qty * e.price).toFixed(2);
+                cart_total += parseFloat(e.cart_sub_total);
+            });
+            meals.total = parseFloat(cart_total).toFixed(2);
 
-    mealModel.find({_id: {$in: meals_list}}).lean().then(meals => {
-        console.log(meals);
-    });
+            req.session.cartTotal = meals.total;
 
-    res.render('shopping-cart', {
-        user: req.session.user,
-        cart: req.session.cart,
-        cartAmount: req.session.cartAmount
-    });
+            res.render('shopping-cart', {
+                user: req.session.user,
+                cart: req.session.cart,
+                cartMeals: meals
+            });
+        });
+    }
+    else{
+        res.send("empty cart")
+    }
 });
 
 //add-to-cart
 app.post("/add-to-cart/:mealid", (req,res)=>{
     let meal_id = req.params.mealid;
     let cart = [];
-    if(req.session.cart === undefined || req.session.cart === null){
-        console.log('cart init');
-    }
-    else {
-        console.log('cart exists');
+
+    //if cart exists, load the array
+    if(req.session.cart !== undefined && req.session.cart !== null){
         cart = req.session.cart;
     }
 
+    //NEED TO FIX THIS -> check if valid meal_id
     if(meal_id){
         cart.push(meal_id);
     }
-    // var cartAmount = {};
-    // cart.forEach(meal => {cartAmount[meal] = (cartAmount[meal] || 0)+1; });
-    var cartAmount = cart.reduce((map, val) => {map[val] = (map[val] || 0)+1; return map}, {} );
-    req.session.cartAmount = cartAmount;
 
+    //cart.reverse();
+    var cartAmount = cart.reduce((map, val) => {map[val] = (map[val] || 0)+1; return map}, {} );
+    
+    req.session.cartAmount = cartAmount;
     req.session.cart = cart;    
 
     res.json({success: '1'});
 });
+
 //remove-from-cart
+app.post("/remove-from-cart/:mealid", (req,res)=>{
+    let meal_id = req.params.mealid;
+    let cart = [];
+
+    //if cart exists, load the array
+    if(req.session.cart !== undefined && req.session.cart !== null){
+        cart = req.session.cart;
+        console.log(cart);
+    }
+    else {
+        console.log('no cart');
+    }
+
+    cart = cart.filter(meal => meal !== meal_id);
+
+    var cartAmount = cart.reduce((map, val) => {map[val] = (map[val] || 0)+1; return map}, {} );
+    req.session.cartAmount = cartAmount;
+    req.session.cart = cart;
+
+    res.json({success: '1'});
+});
+
 
 //meal page
 app.get("/meal/:slug", (req,res) =>{

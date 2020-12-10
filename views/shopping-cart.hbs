@@ -11,9 +11,9 @@
 <div id="ez-content">
 
     {{#if user.loggedIn}}
-        <div class="cart">
-            shopping cart: {{#each cartAmount}}{{@key}} - {{this}}{{/each}}
-        </div>
+    <div class="cart">
+        shopping cart:<br> {{#each cartAmount}}{{@key}} - {{this}}<br>{{/each}}
+    </div>
     {{else}}
     <div class="login">
         Login to add meals to your cart.

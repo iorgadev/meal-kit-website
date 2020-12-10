@@ -182,6 +182,14 @@ app.get("/dashboard", (req,res) => {
 //shoppingCart
 app.get("/cart", (req,res) => {
     // console.log('test');
+
+    let userCart = req.session.cartAmount;
+    let meals_list = Object.keys(req.session.cartAmount);
+
+    mealModel.find({_id: {$in: meals_list}}).lean().then(meals => {
+        console.log(meals);
+    });
+
     res.render('shopping-cart', {
         user: req.session.user,
         cart: req.session.cart,

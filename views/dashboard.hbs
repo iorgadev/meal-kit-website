@@ -11,20 +11,19 @@
 
 <div id="dashboard" class="row center">
 
+    {{#if checkout}}
+    <div class="checkout-msg">
+        Your order has been placed!
+    </div>
+    {{/if}}
+
     <h2>- DASHBOARD -</h2>
     <p>You're one step closer to cooking the best meals, <span style="color:red;">{{user.fName}} {{user.lName}}</span>!</p>
-    <p>We're working on providing more account services.</p>
-    <p>Soon you'll be able to pick and choose kits to add to your account, track shipments, and see all the new recipes we have waiting for you.</p>
-    <br/>
-    <br/>
-
-    <h3>- THIS WEEK -</h3>
-    <p>You currently don't have any meal kits.</p>
     <br/>
     <br/>
 
     <h3>- ORDERS -</h3>
-    <p>You currently don't have any meal kits.</p>
+    <a href="/cart"><button class="addcart">View Shopping Cart</button></a>
 
     <br/>
     <br/>

@@ -72,8 +72,10 @@ function addToCart(meal_id){
     })
     .then(response => response.json())
     .then(result => {
-        if(result.success == '1'){
-            console.log(meal_id + ' added to cart');
+        if(result.success > 0){
+            let add_link = document.getElementById('cart-btn');
+            add_link.textContent = "Add To Cart (" + result.success + " in cart)";
+            console.log("added to cart");
         }
     })
     .catch(err => {
@@ -100,7 +102,7 @@ function removeFromCart(meal_id){
     .then(response => response.json())
     .then(result => {
         if(result.success == '1'){
-            console.log(meal_id + ' removed from cart');
+            location.reload();
         }
     })
     .catch(err => {

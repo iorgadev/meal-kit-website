@@ -19,7 +19,7 @@
         </div>
 
         <div class="info">
-            <h2 class="title">{{meal.title}}</h2>
+            <h2 class="title"><img src="../images/icons/card/{{meal.type}}.png"> {{meal.title}}</h2>
             <div class="stats center">
                 <div class="first">
                     <img src="../images/icons/card/time.png">
@@ -43,24 +43,23 @@
                 </div>
             </div>
 
-            <p>{{meal.description}}</p>
-
-            <ul class="tags">
-                <li>Receipe List:</li>
-            {{#each meal.included}}
-                <li>{{this}}</li>
-            {{/each}}
-            </ul>
+            <p class="description">{{meal.description}}</p>
 
             {{#if user.loggedIn}}
-            <a id="add-to-cart" onclick="addToCart('{{meal._id}}');"><button>Add To Cart</button></a>
+            <div class="center">
+                <a id="add-to-cart" onclick="addToCart('{{meal._id}}');"><button id="cart-btn" class="addcart">Add To Cart</button></a>
+            </div>
+            {{else}}
+            <div class="center">
+                <a class="login"><button class="addcart login-btn">Login To Add To Cart</button></a>
+            </div>
             {{/if}}
         </div>   
     </div>
 
     <!-- content | related meals -->
     <div id="top-meals" class="row center">
-        <h2>- Meals You'd Like -</h2>
+        <h2>- MORE MEALS -</h2>
 
         {{#each extraMeals}}                   
             {{>top-meal}}

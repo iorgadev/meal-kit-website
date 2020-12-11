@@ -8,51 +8,60 @@
     </div>
 </div>
 
-<div id="ez-content">
+<div id="ez-content" class="row">
 
     {{#if user.loggedIn}}
     <div class="cart">
         <table class="cart-container">
             <tr class="header">
                 <th class="meal">Meal</th>
-                <th class="quantity">Quantity</th>
+                <th class="quantity">#</th>
                 <th class="total">Cost</th>
             </tr>
 
             {{!-- display each meal in cart --}}
             {{#each cartMeals}}
-            <tr class="in-cart">
+            <tr id="meal-cart-{{_id}}" class="in-cart">
                 <td class="title">
                     <img class="meal-pic" src="../images/meals/{{image}}"> {{title}}
-                    <span class="remove-from-cart"><a id="{{_id}}" class="remove-meal" href="#" onclick="">( Remove <img src="../images/icons/cancel.png"> )</a></span>
+                    <span class="remove-from-cart"><a id="{{_id}}" class="remove-meal" href="#" onclick="">(Remove)</a></span>
                 </td>
                 <td class="qty center">{{cart_qty}}</td>
-                <td class="cost center">{{cart_sub_total}}</td>
+                <td class="cost center">${{cart_sub_total}}</td>
+            </tr>
+            {{else}}
+            <tr>
+                <td class="empty-cart center" colspan="3">Your Cart is empty, see our menu to add meals.</td>
             </tr>
             {{/each}}
         </table>
 
+        {{#if cartMeals.length}}
         <div class="summary">
             <div>
-                <span class="title">Sub Total: </span>
-                <span class="amount">{{cartMeals.total}}</span>
-            </div>
-            <div>
-                <span class="title">Shipping: </span>
-                <span class="amount">*free*</span>
-            </div>
-            <div>
                 <span class="title">Total: </span>
-                <span class="amount">{{cartMeals.total}}</span>
+                <span id="cart-total" class="amount">${{cartMeals.total}}</span>
             </div>
 
-            <button class="checkout-btn">Place Your Order</button>
+            <a href="/checkout-cart"><button class="checkout-btn">Place Your Order</button></a>
         </div>
+        {{/if}}
     </div>
     {{else}}
-    <div class="login">
-        Login to add meals to your cart.
-    </div>
+        <div class="cart">
+        <table class="cart-container">
+            <tr class="header">
+                <th class="meal">Meal</th>
+                <th class="quantity">Quantity</th>
+                <th class="total">Cost</th>
+            </tr>
+            <tr>
+                <td class="empty-cart center" colspan="3">You must <a class="login" href="#">login</a> to add meals to your cart.</td>
+            </tr>
+        </table>
+        </div>
     {{/if}}
 
 </div>
+
+{{>top-meals}}

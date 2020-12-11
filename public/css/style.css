@@ -554,6 +554,10 @@ img {vertical-align: middle;}
     font-size: 2rem;
 }
 
+#menu-meals a::after {
+    clear: both;
+    content:"";
+}
 #menu-meals .card {
     background-color:#ffffff;
 }
@@ -621,10 +625,15 @@ img {vertical-align: middle;}
 .meal-page .info .title {
     background-color: #faf6f5;
     padding:10px 10px 5px 10px;
-    border:1px solid #fad9d4;
+    border:2px solid #fad9d4;
     border-bottom:0px;
     color:var(--dark-text-color);
     text-align: center;
+}
+.meal-page .info .title img {
+    width:32px;
+    top:-6px;
+    position: relative;
 }
 .meal-page .tags {
     padding:0;
@@ -634,10 +643,39 @@ img {vertical-align: middle;}
     display:inline;
     list-style: none;
 }
+.info .stats {
+    border: 2px solid #fad9d4;
+    border-top:0px;
+}
+.info .stats div {
+    box-shadow: 0px 10px 10px -10px #8d5353 inset;
+}
+.info .description {
+    font-size:1.5rem;
+    font-family: 'Roboto';
+    text-align: justify;
+}
+.addcart {
+    padding:20px 30px 15px 30px;
+    font-size:2rem;
+    background-color: #FAD9D4;
+    border: 2px solid red;
+    color: red;
+    cursor: pointer;
+}
+.addcart:hover {
+    background-color: #fdc1b8;
+}
+.login-btn {
+    cursor: pointer;
+}
+
+
+
+
 
 #ez-content {
     margin-top:40px;
-    margin-bottom:40px;
 }
 
 /* shopping cart */
@@ -663,9 +701,11 @@ img {vertical-align: middle;}
 }
 .cart .header .quantity {
     width:20%;
+    text-align: center;
 }
 .cart .header .total {
     width:20%;
+    text-align: center;
 }
 
 .in-cart .meal-pic {
@@ -685,7 +725,10 @@ img {vertical-align: middle;}
     text-decoration: none;
 }
 
-
+.empty-cart {
+    padding:20px 0px 20px 0;
+    font-size:2rem;
+}
 .cart .summary {
     width:30%;
     float:right;
@@ -695,6 +738,49 @@ img {vertical-align: middle;}
     border:2px solid #a5a5a5;
     padding:20px;
     margin-bottom:40px;
+}
+.checkout-btn {
+    padding:10px 20px 5px 20px;
+    font-size:1.5rem;
+    background-color: #3bb9ea;
+    color: #fff;
+    text-transform: uppercase;
+    
+}
+
+.checkout-msg {
+    padding:20px;
+    font-size:2rem;
+    background-color: #d1ffdb;
+    margin-bottom:20px;
+    color:#353535
+}
+
+
+#bottom-cart {
+    background-color:#eb9e22;
+    padding-top:40px;
+    padding-bottom:40px;
+}
+#bottom-cart-div {
+    width:75%;
+    margin:0 auto;
+}
+#bottom-cart .cta-text {
+    font-size:3rem;
+    display:inline;
+    float:left;
+    width:60%;
+    text-align: right;
+    text-transform: uppercase;
+    padding-right:40px;
+}
+#bottom-cart .delicious-button {
+    width:40%;
+    padding:20px 30px 15px 30px;
+    display:inline;
+    font-size:2rem;
+    border:4px solid #ffffff
 }
 
 
@@ -977,6 +1063,43 @@ input {
         box-shadow: 10px 10px 10px -10px rgb(0, 0, 0);
         margin-top:25px;
     }
+
+    .meal-page {
+        width:90%;
+    }
+    .meal-page .image {
+        width:100%;
+        display:block;
+        margin-bottom:30px;
+    }
+    .meal-page .info {
+        padding:0;
+        width:100%;
+    }
+    .addcart {
+        padding:10px 20px 5px 20px;
+        font-size:1.75rem;
+    }
+
+    .cart {
+        width:100%;
+    }
+    .in-cart .meal-pic {
+        display:none
+    }
+    .in-cart .title, .qty, .cost {
+        font-size:1.25rem;
+    }
+    .remove-from-cart {
+        display:block;
+    }
+    .cart .summary {
+        margin:0 auto;
+        width:95%;
+        float:initial;
+    }
+
+
 
     /* footer */
     .easychef {
@@ -1306,6 +1429,30 @@ input {
         font-size: 3rem;
     }
 
+    .meal-page {
+        width:90%;
+    }
+    .meal-page .image {
+        width:100%;
+        display:block;
+        margin-bottom:30px;
+    }
+    .meal-page .info {
+        padding:0;
+        width:100%;
+    }
+
+    /* cart */
+    .cart {
+        width:90%;
+    }
+    .in-cart .title, .qty, .cost {
+        font-size:1.5rem;
+    }
+    .cart .summary {
+        width:60%;
+    }
+
 
     /* dashboard */
     .clerk-btn {
@@ -1459,6 +1606,21 @@ input {
     }
 
 
+    .meal-page {
+        width:75%;
+    }
+    .meal-page .image {
+        width:50%;
+        display:inline;
+    }
+    .meal-page .info {
+        padding-left:20px;
+        width:50%;
+    }
+
+    .cart .summary {
+        width:30%;
+    }
 
     /* footer */
     .easychef {

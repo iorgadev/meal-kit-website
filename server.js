@@ -78,6 +78,20 @@ let errorRedirect = (res, page) => {
     return;
 }
 
+// authenticate user
+function isLoggedIn(req, res, next) {
+    if (req.session.user){
+        if(req.session.user.loggedIn == true)
+            return next();
+    }
+
+    let errors = {};
+    errors.login = true;
+    errors.no_permission = true;
+    req.session.errors = errors;
+    errorRedirect(res, 'index');
+}
+
 //Main Page
 app.get("/", (req,res) => {
     onPage = 'index';
@@ -99,7 +113,7 @@ app.get("/", (req,res) => {
                 errors
             });
             req.session.errors = null;
-    })
+    }).catch(err=>{console.log('error loading main page');})
 }); 
 
 //On The Menu Page
@@ -164,9 +178,17 @@ app.get("/dashboard", (req,res) => {
             });
         }
         else {
+
+            let checkoutMsg = false;
+            if(req.session.userCheckout == true){
+                checkoutMsg = true;
+                req.session.userCheckout = false;
+            }
+
             res.render('dashboard', {
                 title: 'Account Dashboard - EasyChef Meal Kit',
                 user: req.session.user,
+                checkout: checkoutMsg,
                 onPage
             });
         }
@@ -178,83 +200,6 @@ app.get("/dashboard", (req,res) => {
         req.session.errors = errors;
         errorRedirect(res, 'index');
     }
-});
-
-//shoppingCart
-app.get("/cart", (req,res) => {
-
-    if(req.session.cartAmount){
-        let userCart = req.session.cartAmount;
-        let meals_list = Object.keys(req.session.cartAmount);
-        
-        mealModel.find({_id: {$in: meals_list}}).lean().then(meals => {
-            var cart_total = parseFloat(0);
-            meals.forEach(e => {
-                e.cart_qty = parseInt(userCart[e._id]);
-                e.cart_sub_total = parseFloat(e.cart_qty * e.price).toFixed(2);
-                cart_total += parseFloat(e.cart_sub_total);
-            });
-            meals.total = parseFloat(cart_total).toFixed(2);
-
-            req.session.cartTotal = meals.total;
-
-            res.render('shopping-cart', {
-                user: req.session.user,
-                cart: req.session.cart,
-                cartMeals: meals
-            });
-        });
-    }
-    else{
-        res.send("empty cart")
-    }
-});
-
-//add-to-cart
-app.post("/add-to-cart/:mealid", (req,res)=>{
-    let meal_id = req.params.mealid;
-    let cart = [];
-
-    //if cart exists, load the array
-    if(req.session.cart !== undefined && req.session.cart !== null){
-        cart = req.session.cart;
-    }
-
-    //NEED TO FIX THIS -> check if valid meal_id
-    if(meal_id){
-        cart.push(meal_id);
-    }
-
-    //cart.reverse();
-    var cartAmount = cart.reduce((map, val) => {map[val] = (map[val] || 0)+1; return map}, {} );
-    
-    req.session.cartAmount = cartAmount;
-    req.session.cart = cart;    
-
-    res.json({success: '1'});
-});
-
-//remove-from-cart
-app.post("/remove-from-cart/:mealid", (req,res)=>{
-    let meal_id = req.params.mealid;
-    let cart = [];
-
-    //if cart exists, load the array
-    if(req.session.cart !== undefined && req.session.cart !== null){
-        cart = req.session.cart;
-        console.log(cart);
-    }
-    else {
-        console.log('no cart');
-    }
-
-    cart = cart.filter(meal => meal !== meal_id);
-
-    var cartAmount = cart.reduce((map, val) => {map[val] = (map[val] || 0)+1; return map}, {} );
-    req.session.cartAmount = cartAmount;
-    req.session.cart = cart;
-
-    res.json({success: '1'});
 });
 
 
@@ -289,6 +234,152 @@ app.get("/meal/:slug", (req,res) =>{
         res.send("Error, 404!");
     });
 });
+
+
+
+//shoppingCart
+app.get("/cart", (req,res) => {
+
+    mealModel.find({top: true}).sort({dateAdded:1}).lean().then(allMeals => {
+
+        allMeals.forEach(m => {
+            m.included = m.included.split(",").map(function(item) {
+                return item.trim();
+            });
+        })
+
+        if(req.session.cartAmount){
+            // console.log(req.session.cartAmount);
+            let userCart = req.session.cartAmount;
+            let meals_list = Object.keys(req.session.cartAmount);
+            
+            mealModel.find({_id: {$in: meals_list}}).lean().then(meals => {
+                var cart_total = parseFloat(0);
+                meals.forEach(e => {
+                    e.cart_qty = parseInt(userCart[e._id]);
+                    e.cart_sub_total = parseFloat(e.cart_qty * e.price).toFixed(2);
+                    cart_total += parseFloat(e.cart_sub_total);
+                });
+                meals.total = parseFloat(cart_total).toFixed(2);
+    
+                req.session.cartTotal = meals.total;
+    
+                res.render('shopping-cart', {
+                    title: 'Meal Kit Shopping Cart - EasyChef',
+                    meal: allMeals,
+                    user: req.session.user,
+                    cart: req.session.cart,
+                    cartMeals: meals
+                });
+            });
+        }
+        else{
+            res.render('shopping-cart', {
+                title: 'Meal Kit Shopping Cart - EasyChef',
+                meal: allMeals,
+                user: req.session.user,
+                cart: req.session.cart,
+                cartMeals: {}
+            });
+        }
+
+    }).catch(err=>{console.log('error loading cart');})
+});
+
+//add-to-cart
+app.post("/add-to-cart/:mealid", isLoggedIn, (req,res)=>{
+    let meal_id = req.params.mealid;
+    let cart = [];
+
+    //if cart exists, load the array
+    if(req.session.cart !== undefined && req.session.cart !== null){
+        cart = req.session.cart;
+    }
+
+    //NEED TO FIX THIS -> check if valid meal_id
+    if(meal_id){
+        cart.push(meal_id);
+    }
+
+    //cart.reverse();
+    var cartAmount = cart.reduce((map, val) => {map[val] = (map[val] || 0)+1; return map}, {} );
+    
+    req.session.cartAmount = cartAmount;
+    req.session.cart = cart;    
+
+    res.json({ success: cartAmount[meal_id] });
+});
+
+//remove-from-cart
+app.post("/remove-from-cart/:mealid", isLoggedIn, (req,res)=>{
+    let meal_id = req.params.mealid;
+    let cart = [];
+
+    //if cart exists, load the array
+    if(req.session.cart !== undefined && req.session.cart !== null){
+        cart = req.session.cart;
+    }
+
+    cart = cart.filter(meal => meal !== meal_id);
+
+    var cartAmount = cart.reduce((map, val) => {map[val] = (map[val] || 0)+1; return map}, {} );
+    req.session.cartAmount = cartAmount;
+    req.session.cart = cart;
+
+    res.json({
+        success: '1'
+    });
+});
+
+//checkout
+app.get("/checkout-cart", isLoggedIn, (req,res)=>{
+
+    if(req.session.cartAmount){
+        let email_msg = "";
+        let userCart = req.session.cartAmount;
+        let meals_list = Object.keys(req.session.cartAmount);
+        
+        mealModel.find({_id: {$in: meals_list}}).lean().then(meals => {
+            email_msg += "Thanks for placing your <b>EasyChef</b> order! <br><br>";
+            email_msg += "<b><u>Order Details:</u></b> <br>";
+
+            var cart_total = parseFloat(0);
+            meals.forEach(e => {
+                e.cart_qty = parseInt(userCart[e._id]);
+                e.cart_sub_total = parseFloat(e.cart_qty * e.price).toFixed(2);
+                cart_total += parseFloat(e.cart_sub_total);
+                email_msg += " - " + e.title + " x " + e.cart_qty + " - $"+e.price+"/Meal<br>";
+            });
+            meals.total = parseFloat(cart_total).toFixed(2);
+
+            email_msg += "<br><b>Order Total: $" + meals.total + "</b><br>";
+
+            userModel.findOne({
+                _id: req.session.user.id
+            }).then((user) => {
+                //send email
+                const sendgridMail = require("@sendgrid/mail");
+                sendgridMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+                const msg = {
+                    to: user.email,
+                    from: 'aiorga@myseneca.ca',
+                    subject: 'Your EasyChef Order Has Been Placed!',
+                    html: email_msg
+                };
+
+                sendgridMail.send(msg)
+                .then(() => {
+                    req.session.cart = null;
+                    req.session.cartAmount = null;
+                    req.session.userCheckout = true;
+                    res.redirect("/dashboard");
+                }).catch(err=>{console.log('error sending checkout-email');});
+            }).catch(err=>{console.log("could not find user("+req.session.user.id+") to email");});
+        });
+    }
+});
+
 
 
 // authenticate clerk for meal adding, editing, etc
@@ -519,6 +610,7 @@ app.post("/login", (req,res) =>{
                             userInfo.loggedIn = true;
                             userInfo.fName = user.firstName;
                             userInfo.lName = user.lastName;
+                            userInfo.id = user._id;
 
                             //check if user is clerk
                             userInfo.clerk = (e!=null);
@@ -644,6 +736,7 @@ app.post("/register", (req,res) =>{
                     userInfo.loggedIn = true;
                     userInfo.fName = user.firstName;
                     userInfo.lName = user.lastName;
+                    userInfo.id = user._id;
                     req.session.user = userInfo;
 
                     //send email

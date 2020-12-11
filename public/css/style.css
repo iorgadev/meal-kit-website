@@ -750,6 +750,7 @@ img {vertical-align: middle;}
     background-color: #3bb9ea;
     color: #fff;
     text-transform: uppercase;
+    cursor: pointer;
 }
 .checkout-btn:hover {
     background-color: #29a1d1;

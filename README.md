@@ -4,6 +4,10 @@ Web322 - Assignment 1-5 - *COMPLETE*
 Deployed to Heroku:
 view @ https://easychef-ai.herokuapp.com
 
+11-DEC-2020
+---
+ - fixed bug causing crash when trying to update a meal with an invalid image type
+
 10-DEC-2020
 ---
  - logged in users can add meals to the shopping cart

@@ -411,57 +411,57 @@ app.post("/dashboard/editMeal/", isClerk, (req,res)=>{
         let extension = path.extname(req.files.image.name);
         if(extension == '.jpg' || extension == '.jpeg' || extension == '.png' || extension == '.gif'){
             newImage = req.files.image.name;
-        }
-        else{
-            res.send('error, invalid image type');
-        }
-    }
 
-    mealModel.findById(meal_id).then(result => {
-        if(result != null){
-
-            top = (top == 1) ? true:false;
-            let image = null;
-            if(newImage != null){
-                //delete old image
-                fs.unlinkSync(`public/images/meals/${result.image}`);
-                //copy new image
-                req.files.image.mv(`public/images/meals/${req.files.image.name}`);
-
-                image = newImage;
-            }
-            else {
-                image = result.image;
-            }
-
-            mealModel.findByIdAndUpdate({_id: meal_id}, {
-                title: title,
-                description: description,
-                included: included,
-                cookingTime: cookingTime,
-                servings: servings,
-                price: price,
-                calories: calories,
-                category: category,
-                type: type,
-                top: top,
-                image: image
-            }, (err, result) => {
-                if(err) {
-                    res.send(err);
+            mealModel.findById(meal_id).then(result => {
+                if(result != null){
+        
+                    top = (top == 1) ? true:false;
+                    let image = null;
+                    if(newImage != null){
+                        //delete old image
+                        fs.unlinkSync(`public/images/meals/${result.image}`);
+                        //copy new image
+                        req.files.image.mv(`public/images/meals/${req.files.image.name}`);
+        
+                        image = newImage;
+                    }
+                    else {
+                        image = result.image;
+                    }
+        
+                    mealModel.findByIdAndUpdate({_id: meal_id}, {
+                        title: title,
+                        description: description,
+                        included: included,
+                        cookingTime: cookingTime,
+                        servings: servings,
+                        price: price,
+                        calories: calories,
+                        category: category,
+                        type: type,
+                        top: top,
+                        image: image
+                    }, (err, result) => {
+                        if(err) {
+                            res.send(err);
+                        }
+                        else {
+                            res.redirect('/dashboard');
+                        }
+                    });
+        
                 }
                 else {
                     res.redirect('/dashboard');
                 }
+            }).catch(err=> {
+                console.log("Error fetching meal kit into: "+err);
             });
-
         }
-        else {
-            res.redirect('/dashboard');
+        else{
+            res.send('error, invalid image type: '+extension);
         }
-    }).catch(err=> {
-        console.log("Error fetching meal kit into: "+err);
-    })
+    }
 });
 
 //addMeal

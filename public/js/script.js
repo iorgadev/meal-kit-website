@@ -75,7 +75,6 @@ function addToCart(meal_id){
         if(result.success > 0){
             let add_link = document.getElementById('cart-btn');
             add_link.innerHTML = '<img class="cta-icon img-responsive" src="../images/icons/add-to-basket.png"> Add To Cart  (' + result.success + ' in cart)';
-            /("Added meal to cart");
         }
     })
     .catch(err => {

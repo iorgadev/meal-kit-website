@@ -249,7 +249,6 @@ app.get("/cart", (req,res) => {
         })
 
         if(req.session.cartAmount){
-            // console.log(req.session.cartAmount);
             let userCart = req.session.cartAmount;
             let meals_list = Object.keys(req.session.cartAmount);
             

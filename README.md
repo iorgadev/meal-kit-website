@@ -1,8 +1,16 @@
 # Meal-Kit-Website
-Web322 - Assignment 1-5 (currently on #4)
+Web322 - Assignment 1-5 - *COMPLETE*
 
 Deployed to Heroku:
 view @ https://easychef-ai.herokuapp.com
+
+10-DEC-2020
+---
+ - logged in users can add meals to the shopping cart
+ - meals can be removed from cart
+ - place orders will send confirmation email
+ - made some small changes to styles, colours, etc
+
 
 28-NOV-2020
 ---

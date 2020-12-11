@@ -659,8 +659,8 @@ img {vertical-align: middle;}
     padding:20px 30px 15px 30px;
     font-size:2rem;
     background-color: #FAD9D4;
-    border: 2px solid red;
-    color: red;
+    border: 2px solid var(--dark-text-color);
+    color: var(--dark-text-color);
     cursor: pointer;
 }
 .addcart:hover {
@@ -740,12 +740,15 @@ img {vertical-align: middle;}
     margin-bottom:40px;
 }
 .checkout-btn {
-    padding:10px 20px 5px 20px;
+    padding:15px 20px 5px 20px;
     font-size:1.5rem;
     background-color: #3bb9ea;
     color: #fff;
     text-transform: uppercase;
-    
+}
+.checkout-btn:hover {
+    background-color: #29a1d1;
+    color:#ebebeb;
 }
 
 .checkout-msg {
@@ -1077,7 +1080,7 @@ input {
         width:100%;
     }
     .addcart {
-        padding:10px 20px 5px 20px;
+        padding:10px 10px 5px 10px;
         font-size:1.75rem;
     }
 

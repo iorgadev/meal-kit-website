@@ -23,7 +23,7 @@
             {{#each cartMeals}}
             <tr id="meal-cart-{{_id}}" class="in-cart">
                 <td class="title">
-                    <img class="meal-pic" src="../images/meals/{{image}}"> {{title}}
+                    <a href="../meal/{{_id}}"><img class="meal-pic" src="../images/meals/{{image}}"></a> <a href="../meal/{{_id}}">{{title}}</a>
                     <span class="remove-from-cart"><a id="{{_id}}" class="remove-meal" href="#" onclick="">(Remove)</a></span>
                 </td>
                 <td class="qty center">{{cart_qty}}</td>
